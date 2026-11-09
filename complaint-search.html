@@ -6,60 +6,21 @@
   <title>客訴歷史查詢系統 — 晉億冷凍機械有限公司</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Microsoft JhengHei","PingFang TC",sans-serif; background: #f0f3f8; color: #333; min-height: 100vh; }
 
-    body {
-      font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
-      background: #f0f3f8;
-      color: #333;
-      min-height: 100vh;
-    }
-
-    /* ── 頂部標題 ── */
-    header {
-      background: #1a3a5c;
-      color: #fff;
-      padding: 16px 32px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    header { background: #1a3a5c; color: #fff; padding: 16px 32px; display: flex; align-items: center; gap: 12px; }
     header .logo { font-size: 22px; }
     header h1   { font-size: 18px; font-weight: 700; letter-spacing: 1px; }
     header .sub { font-size: 12px; opacity: .6; margin-left: auto; }
 
-    /* ── 搜尋列 ── */
-    .search-panel {
-      background: #fff;
-      padding: 18px 32px;
-      border-bottom: 1px solid #dde2ea;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: flex-end;
-    }
+    .search-panel { background: #fff; padding: 18px 32px; border-bottom: 1px solid #dde2ea; display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
     .sg { display: flex; flex-direction: column; gap: 4px; }
     .sg label { font-size: 11px; font-weight: 700; color: #666; }
-    .sg input, .sg select {
-      padding: 8px 11px;
-      border: 1px solid #cdd2da;
-      border-radius: 6px;
-      font-size: 13px;
-      font-family: inherit;
-      background: #fafbfc;
-      outline: none;
-      min-width: 150px;
-    }
+    .sg input, .sg select { padding: 8px 11px; border: 1px solid #cdd2da; border-radius: 6px; font-size: 13px; font-family: inherit; background: #fafbfc; outline: none; min-width: 150px; }
     .sg input:focus, .sg select:focus { border-color: #3a7bd5; background: #fff; }
     .sg.wide input { min-width: 260px; }
 
-    .btn {
-      padding: 8px 18px;
-      border: none; border-radius: 6px;
-      font-size: 13px; font-family: inherit;
-      cursor: pointer; font-weight: 700;
-      white-space: nowrap;
-      transition: opacity .15s;
-    }
+    .btn { padding: 8px 18px; border: none; border-radius: 6px; font-size: 13px; font-family: inherit; cursor: pointer; font-weight: 700; white-space: nowrap; transition: opacity .15s; }
     .btn:hover { opacity: .85; }
     .btn-blue   { background: #3a7bd5; color: #fff; }
     .btn-grey   { background: #eef1f6; color: #555; }
@@ -67,178 +28,70 @@
     .btn-purple { background: #8e44ad; color: #fff; }
     .btn-red    { background: #c0392b; color: #fff; }
 
-    /* ── 統計列 ── */
-    .stats-bar {
-      background: #fff;
-      padding: 10px 32px;
-      border-bottom: 1px solid #dde2ea;
-      display: flex;
-      gap: 28px;
-      flex-wrap: wrap;
-    }
+    .stats-bar { background: #fff; padding: 10px 32px; border-bottom: 1px solid #dde2ea; display: flex; gap: 28px; flex-wrap: wrap; }
     .stat { display: flex; flex-direction: column; align-items: center; }
     .stat-n { font-size: 20px; font-weight: 700; color: #1a3a5c; }
     .stat-l { font-size: 11px; color: #999; }
     .stat.red .stat-n { color: #c0392b; }
 
-    /* ── 結果區 ── */
     .result-area { padding: 20px 32px; }
-    .result-hdr {
-      display: flex; justify-content: space-between;
-      align-items: center; margin-bottom: 14px;
-      font-size: 13px; color: #666;
-    }
+    .result-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: 13px; color: #666; }
     .result-hdr strong { color: #1a3a5c; font-size: 15px; }
-    .tpl-btn {
-      font-size: 12px; color: #3a7bd5; cursor: pointer;
-      text-decoration: underline; background: none;
-      border: none; font-family: inherit;
-    }
+    .tpl-btn { font-size: 12px; color: #3a7bd5; cursor: pointer; text-decoration: underline; background: none; border: none; font-family: inherit; }
 
-    /* ── 卡片 ── */
     .card-list { display: flex; flex-direction: column; gap: 10px; }
-
-    .card {
-      background: #fff;
-      border: 1px solid #dde2ea;
-      border-radius: 8px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: box-shadow .15s, border-color .15s;
-    }
+    .card { background: #fff; border: 1px solid #dde2ea; border-radius: 8px; overflow: hidden; cursor: pointer; transition: box-shadow .15s, border-color .15s; }
     .card:hover { box-shadow: 0 3px 14px rgba(58,123,213,.13); border-color: #c5d8f5; }
     .card.open  { border-color: #3a7bd5; }
 
-    /* 卡片頭部（永遠可見） */
-    .card-head {
-      display: grid;
-      grid-template-columns: 5px 1fr auto;
-      gap: 0 16px;
-      padding: 14px 18px;
-      align-items: start;
-    }
+    .card-head { display: grid; grid-template-columns: 5px 1fr auto; gap: 0 16px; padding: 14px 18px; align-items: start; }
     .cbar { border-radius: 3px; align-self: stretch; min-height: 50px; }
+    .bq { background: #e05050; } .bd { background: #e08020; }
+    .ba { background: #9b59b6; } .bz { background: #3a7bd5; }
+    .bs { background: #27ae60; } .bo { background: #95a5a6; }
 
-    /* 摘要欄位 */
     .cinfo { display: flex; flex-direction: column; gap: 5px; }
     .ctop  { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-
     .cno   { font-size: 12px; font-weight: 700; color: #1a3a5c; font-family: monospace; letter-spacing: .5px; }
     .ccl   { font-size: 14px; font-weight: 700; color: #1a3a5c; }
-
     .tag   { font-size: 11px; padding: 2px 9px; border-radius: 12px; font-weight: 700; }
     .st-open    { background: #fff3cd; color: #856404; }
     .st-closed  { background: #d1ecf1; color: #0c5460; }
     .st-pending { background: #f8d7da; color: #721c24; }
+    .cpreview { font-size: 13px; color: #555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 700px; }
+    .cright { text-align: right; white-space: nowrap; font-size: 11px; color: #aaa; }
+    .cdate  { font-size: 13px; font-weight: 600; color: #777; }
 
-    /* 抱怨內容摘要（單行截斷） */
-    .cpreview {
-      font-size: 13px; color: #555;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      max-width: 700px;
-    }
-
-    .cright {
-      text-align: right; white-space: nowrap;
-      font-size: 11px; color: #aaa;
-    }
-    .cdate { font-size: 13px; font-weight: 600; color: #777; }
-
-    /* ── 展開詳情 ── */
-    .card-body {
-      display: none;
-      border-top: 1px solid #e8ecf2;
-      background: #f8f9fc;
-    }
+    .card-body { display: none; border-top: 1px solid #e8ecf2; background: #f8f9fc; }
     .card.open .card-body { display: block; }
 
-    .section {
-      padding: 14px 20px;
-      border-bottom: 1px solid #e8ecf2;
-    }
+    .section { padding: 14px 20px; border-bottom: 1px solid #e8ecf2; }
     .section:last-child { border-bottom: none; }
-    .section-title {
-      font-size: 11px; font-weight: 700; color: #888;
-      letter-spacing: 1px; text-transform: uppercase;
-      margin-bottom: 8px;
-      display: flex; align-items: center; gap: 6px;
-    }
-    .section-content {
-      font-size: 13px; color: #333; line-height: 1.8;
-      white-space: pre-wrap;
-    }
+    .section-title { font-size: 11px; font-weight: 700; color: #888; letter-spacing: 1px; margin-bottom: 8px; }
+    .section-content { font-size: 13px; color: #333; line-height: 1.8; white-space: pre-wrap; }
 
-    /* 對策三欄 */
-    .cm-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 10px;
-    }
-    .cm-card {
-      background: #fff;
-      border: 1px solid #ffe58f;
-      border-radius: 6px;
-      padding: 10px 12px;
-    }
-    .cm-label {
-      font-size: 11px; font-weight: 700;
-      color: #8a6d00; margin-bottom: 5px;
-    }
-    .cm-val { font-size: 13px; color: #333; line-height: 1.6; }
+    .cm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+    .cm-card { background: #fff; border: 1px solid #ffe58f; border-radius: 6px; padding: 10px 12px; }
+    .cm-label { font-size: 11px; font-weight: 700; color: #8a6d00; margin-bottom: 5px; }
+    .cm-val   { font-size: 13px; color: #333; line-height: 1.6; }
 
-    /* 左側色條 */
-    .bq { background: #e05050; }
-    .bd { background: #e08020; }
-    .ba { background: #9b59b6; }
-    .bz { background: #3a7bd5; }
-    .bs { background: #27ae60; }
-    .bo { background: #95a5a6; }
+    .meta-row { display: flex; gap: 24px; flex-wrap: wrap; font-size: 13px; color: #555; }
+    .meta-row b { color: #888; }
 
-    /* ── 空狀態 ── */
-    .empty {
-      text-align: center;
-      padding: 60px 20px;
-      color: #bbb;
-    }
+    .empty { text-align: center; padding: 60px 20px; color: #bbb; }
     .empty .eicon { font-size: 54px; margin-bottom: 14px; }
     .empty p { font-size: 15px; margin-bottom: 20px; }
-    .excel-guide {
-      display: inline-block;
-      background: #eaf1fb;
-      border: 1px dashed #3a7bd5;
-      border-radius: 8px;
-      padding: 16px 28px;
-      text-align: left;
-      font-size: 13px;
-      color: #1a5db0;
-      line-height: 2.2;
-      max-width: 520px;
-    }
+    .excel-guide { display: inline-block; background: #eaf1fb; border: 1px dashed #3a7bd5; border-radius: 8px; padding: 16px 28px; text-align: left; font-size: 13px; color: #1a5db0; line-height: 2.2; max-width: 520px; }
     .excel-guide b { color: #1a3a5c; }
 
-    /* ── Modal ── */
-    .overlay {
-      display: none; position: fixed;
-      inset: 0; background: rgba(0,0,0,.46);
-      z-index: 200; align-items: center; justify-content: center;
-    }
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.46); z-index: 200; align-items: center; justify-content: center; }
     .overlay.on { display: flex; }
-    .modal {
-      background: #fff; border-radius: 10px;
-      padding: 26px 30px; width: 560px;
-      max-width: 96vw; max-height: 92vh;
-      overflow-y: auto;
-      box-shadow: 0 10px 40px rgba(0,0,0,.22);
-    }
+    .modal { background: #fff; border-radius: 10px; padding: 26px 30px; width: 560px; max-width: 96vw; max-height: 92vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,.22); }
     .modal h2 { font-size: 15px; color: #1a3a5c; margin-bottom: 18px; }
     .fg { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
     .fg label { font-size: 11px; font-weight: 700; color: #666; }
     .req { color: #e05050; }
-    .fg input, .fg select, .fg textarea {
-      padding: 8px 10px; border: 1px solid #cdd2da;
-      border-radius: 6px; font-size: 13px;
-      font-family: inherit; background: #fafbfc; outline: none;
-    }
+    .fg input, .fg select, .fg textarea { padding: 8px 10px; border: 1px solid #cdd2da; border-radius: 6px; font-size: 13px; font-family: inherit; background: #fafbfc; outline: none; }
     .fg textarea { resize: vertical; min-height: 72px; }
     .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .mfoot { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
@@ -256,14 +109,12 @@
 </head>
 <body>
 
-<!-- 標題 -->
 <header>
   <span class="logo">📋</span>
   <h1>客訴歷史查詢系統</h1>
   <span class="sub">晉億冷凍機械有限公司</span>
 </header>
 
-<!-- 搜尋列 -->
 <div class="search-panel">
   <div class="sg wide">
     <label>🔍 關鍵字（編號 / 客戶 / 抱怨內容）</label>
@@ -292,7 +143,6 @@
   <button class="btn btn-red"    onclick="clearAll()">🗑 清空</button>
 </div>
 
-<!-- 統計列 -->
 <div class="stats-bar">
   <div class="stat">        <span class="stat-n" id="sTotal">0</span>  <span class="stat-l">總案件</span></div>
   <div class="stat red">    <span class="stat-n" id="sOpen">0</span>   <span class="stat-l">處理中</span></div>
@@ -300,7 +150,6 @@
   <div class="stat">        <span class="stat-n" id="sPending">0</span><span class="stat-l">待確認</span></div>
 </div>
 
-<!-- 結果 -->
 <div class="result-area">
   <div class="result-hdr">
     <span>共 <strong id="rCount">0</strong> 筆</span>
@@ -314,55 +163,26 @@
   <div class="modal">
     <h2>📝 新增客訴處理單</h2>
     <div class="frow">
-      <div class="fg">
-        <label>客戶抱怨處理單編號 <span class="req">*</span></label>
-        <input id="a_id" placeholder="如 TH-115090101" />
-      </div>
-      <div class="fg">
-        <label>客戶 <span class="req">*</span></label>
-        <input id="a_cl" placeholder="如 天合" />
-      </div>
+      <div class="fg"><label>客戶抱怨處理單編號 <span class="req">*</span></label><input id="a_id" placeholder="如 114112801" /></div>
+      <div class="fg"><label>客戶 <span class="req">*</span></label><input id="a_cl" placeholder="如 天合" /></div>
     </div>
     <div class="frow">
-      <div class="fg">
-        <label>日期 <span class="req">*</span></label>
-        <input id="a_dt" placeholder="115-09-01" />
-      </div>
-      <div class="fg">
-        <label>處理狀態 <span class="req">*</span></label>
-        <select id="a_st">
-          <option value="">請選擇</option>
-          <option>處理中</option>
-          <option>已結案</option>
-          <option>待確認</option>
-        </select>
+      <div class="fg"><label>日期 <span class="req">*</span></label><input id="a_dt" placeholder="114-11-28" /></div>
+      <div class="fg"><label>處理狀態 <span class="req">*</span></label>
+        <select id="a_st"><option value="">請選擇</option><option>處理中</option><option>已結案</option><option>待確認</option></select>
       </div>
     </div>
-    <div class="fg">
-      <label>抱怨內容 <span class="req">*</span></label>
-      <textarea id="a_comp" placeholder="詳細描述客戶抱怨的問題、現象、數量、影響…"></textarea>
-    </div>
-    <div class="fg">
-      <label>短期對策（立即矯正）</label>
-      <textarea id="a_s1" placeholder="針對本次問題立即採取的處理行動"></textarea>
-    </div>
-    <div class="fg">
-      <label>長期對策（防止再發）</label>
-      <textarea id="a_s2" placeholder="防止問題再次發生的系統性改善措施"></textarea>
-    </div>
-    <div class="fg">
-      <label>效果確認</label>
-      <textarea id="a_s3" placeholder="對策實施後的驗證結果"></textarea>
-    </div>
+    <div class="fg"><label>是否退回品</label><input id="a_ret" placeholder="□是（銷退單號：）　□否" /></div>
+    <div class="fg"><label>訂單編號</label><input id="a_ord" placeholder="訂單編號" /></div>
+    <div class="fg"><label>抱怨內容 <span class="req">*</span></label><textarea id="a_comp" placeholder="品名、規格、客訴問題描述…"></textarea></div>
+    <div class="fg"><label>現況分析</label><textarea id="a_cur" placeholder="外觀、檢測、製程分析結果…"></textarea></div>
+    <div class="fg"><label>發生原因</label><textarea id="a_cause" placeholder="根本原因分析…"></textarea></div>
+    <div class="fg"><label>對策提出（短期矯正）</label><textarea id="a_s1" placeholder="立即採取的矯正行動…"></textarea></div>
+    <div class="fg"><label>對策提出（長期預防）</label><textarea id="a_s2" placeholder="防止再發的改善措施…"></textarea></div>
+    <div class="fg"><label>效果確認</label><textarea id="a_s3" placeholder="對策實施後驗證結果…"></textarea></div>
     <div class="frow">
-      <div class="fg">
-        <label>結案日期</label>
-        <input id="a_cd" placeholder="尚未結案填 —" />
-      </div>
-      <div class="fg">
-        <label>負責人</label>
-        <input id="a_rp" placeholder="姓名" />
-      </div>
+      <div class="fg"><label>預計完成日期</label><input id="a_due" placeholder="114-12-31" /></div>
+      <div class="fg"><label>責任單位</label><input id="a_dept" placeholder="品管 / 製造…" /></div>
     </div>
     <div class="mfoot">
       <button class="btn btn-grey" onclick="closeAdd()">取消</button>
@@ -371,66 +191,129 @@
   </div>
 </div>
 
-<!-- SheetJS（解析 Excel） -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-
 <script>
 /* ================================================================
-   資料
+   真實資料（來源：客戶提供 Excel 檔）
 ================================================================ */
-let data = [];
+let data = [
+  {
+    id: "114112801",
+    client: "天合",
+    date: "114-11-28",
+    status: "處理中",
+    hasReturn: "是（銷退單號：1141128001）",
+    orderNo: "1111108014",
+    complaint: "12\"冷凍馬達 4P/220V/1Φ — 客訴異音",
+    current: "",
+    cause: "",
+    actionShort: "",
+    actionLong: "",
+    verify: "",
+    dueDate: "",
+    dept: ""
+  },
+  {
+    id: "114101301",
+    client: "天合",
+    date: "114-10-13",
+    status: "已結案",
+    hasReturn: "否",
+    orderNo: "1140924003",
+    complaint: "10HP室外機 (16\"×3) 6P/220V/1Φ — 客訴銅管內都是油，天合已協助處理，請再注意製程",
+    current: "",
+    cause: "",
+    actionShort: "天合自行處理，業主說用氮氣可以趕出大部分的油",
+    actionLong: "請製程再注意品質",
+    verify: "",
+    dueDate: "",
+    dept: ""
+  },
+  {
+    id: "114092601",
+    client: "天合",
+    date: "114-09-25",
+    status: "處理中",
+    hasReturn: "是（銷退單號：1140926001）",
+    orderNo: "",
+    complaint: "8\"蔽極式馬達 4P/220V/1Ψ（冷凍/散熱）吸頂用 — 客訴故障，數量：1顆",
+    current: "外觀：外框有變形\n場內檢測運轉時會出現卡卡狀況，建議退回供應商分析異常原因\n供應商：長佑 5M11-08A 風扇馬達組 8\" 鋁葉 220-240V/10W/吸風/31度葉片/鐵框",
+    cause: "",
+    actionShort: "退回供應商進行根因分析",
+    actionLong: "",
+    verify: "",
+    dueDate: "",
+    dept: ""
+  },
+  {
+    id: "114092602",
+    client: "天合",
+    date: "114-09-25",
+    status: "處理中",
+    hasReturn: "是（銷退單號：1140926001）",
+    orderNo: "",
+    complaint: "1HP散熱片 — 客訴沒氣",
+    current: "",
+    cause: "",
+    actionShort: "",
+    actionLong: "",
+    verify: "",
+    dueDate: "",
+    dept: ""
+  },
+  {
+    id: "1140721",
+    client: "天合",
+    date: "114-07-21",
+    status: "處理中",
+    hasReturn: "否",
+    orderNo: "",
+    complaint: "60尺吸頂式冷凍 — 客訴除霜能力不佳，業主抱怨電熱不夠熱（600W，240V×2支）\n遇到常開關的冰箱，會卡冰除霜不完全，或需要除霜更久，除霜能力差太多",
+    current: "",
+    cause: "",
+    actionShort: "",
+    actionLong: "",
+    verify: "",
+    dueDate: "",
+    dept: ""
+  }
+];
 
-const ST_MAP = {
-  "處理中": "st-open",
-  "已結案": "st-closed",
-  "待確認": "st-pending"
-};
+const ST_MAP = { "處理中":"st-open", "已結案":"st-closed", "待確認":"st-pending" };
+const BAR_MAP = { "處理中":"bq", "已結案":"bs", "待確認":"bd" };
 
-/* ── 高亮 ── */
 function hl(txt, kw) {
   if (!kw || !txt) return txt || "—";
   const e = kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   return String(txt).replace(new RegExp(e, "gi"), m => `<mark>${m}</mark>`);
 }
 
-/* ── 渲染卡片 ── */
 function render(list, kw) {
   const el = document.getElementById("cardList");
-
   if (!list.length) {
     el.innerHTML = `
       <div class="empty">
         <div class="eicon">📭</div>
-        <p>尚無資料，請點「📂 匯入 Excel」或「＋ 新增」輸入客訴記錄</p>
+        <p>查無符合條件的記錄</p>
         <div class="excel-guide">
-          <b>Excel 欄位順序（第 1 列為標題，之後每列一筆）：</b><br>
-          A｜客戶抱怨處理單編號<br>
-          B｜客戶<br>
-          C｜日期（如 114-04-24）<br>
-          D｜處理狀態（處理中 / 已結案 / 待確認）<br>
-          E｜抱怨內容<br>
-          F｜短期對策<br>
-          G｜長期對策<br>
-          H｜效果確認<br>
-          I｜結案日期<br>
-          J｜負責人
+          <b>Excel 欄位順序（第 1 列為標題）：</b><br>
+          A 客戶抱怨處理單編號｜B 客戶｜C 日期｜D 處理狀態<br>
+          E 是否退回品｜F 訂單編號｜G 抱怨內容<br>
+          H 現況分析｜I 發生原因<br>
+          J 短期對策｜K 長期對策｜L 效果確認<br>
+          M 預計完成日期｜N 責任單位
         </div>
       </div>`;
     return;
   }
-
   el.innerHTML = list.map(c => {
-    const h   = t => hl(t, kw);
-    const sm  = ST_MAP[c.status] || "st-open";
-    // 決定左側色條（依狀態）
-    const bar = c.status === "已結案" ? "bs"
-              : c.status === "處理中"  ? "bq"
-              : "bd";
-
+    const h  = t => hl(t, kw);
+    const sm = ST_MAP[c.status] || "st-open";
+    const bm = BAR_MAP[c.status] || "bq";
     return `
     <div class="card" id="c-${CSS.escape(c.id)}" onclick="tog('${c.id.replace(/'/g,"\\'")}')">
       <div class="card-head">
-        <div class="cbar ${bar}"></div>
+        <div class="cbar ${bm}"></div>
         <div class="cinfo">
           <div class="ctop">
             <span class="cno">${h(c.id)}</span>
@@ -446,53 +329,47 @@ function render(list, kw) {
         </div>
       </div>
       <div class="card-body">
-
-        <!-- 抱怨內容 -->
         <div class="section">
           <div class="section-title">🗣 抱怨內容</div>
           <div class="section-content">${h(c.complaint)}</div>
         </div>
-
-        <!-- 對策提出 -->
+        ${c.current ? `
+        <div class="section">
+          <div class="section-title">🔍 現況分析</div>
+          <div class="section-content">${h(c.current)}</div>
+        </div>` : ""}
+        ${c.cause ? `
+        <div class="section">
+          <div class="section-title">⚠ 發生原因</div>
+          <div class="section-content">${h(c.cause)}</div>
+        </div>` : ""}
         <div class="section">
           <div class="section-title">🛠 對策提出</div>
           <div class="cm-grid">
-            <div class="cm-card">
-              <div class="cm-label">短期對策（立即矯正）</div>
-              <div class="cm-val">${h(c.actionShort)}</div>
-            </div>
-            <div class="cm-card">
-              <div class="cm-label">長期對策（防止再發）</div>
-              <div class="cm-val">${h(c.actionLong)}</div>
-            </div>
-            <div class="cm-card">
-              <div class="cm-label">效果確認</div>
-              <div class="cm-val">${h(c.verify)}</div>
-            </div>
+            <div class="cm-card"><div class="cm-label">短期矯正</div><div class="cm-val">${h(c.actionShort)||"—"}</div></div>
+            <div class="cm-card"><div class="cm-label">長期預防</div><div class="cm-val">${h(c.actionLong)||"—"}</div></div>
+            <div class="cm-card"><div class="cm-label">效果確認</div><div class="cm-val">${h(c.verify)||"—"}</div></div>
           </div>
         </div>
-
-        <!-- 其他資訊 -->
         <div class="section">
           <div class="section-title">ℹ 其他資訊</div>
-          <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:13px;color:#555;">
-            <span><b style="color:#888;">結案日期：</b>${c.closeDate||"—"}</span>
-            <span><b style="color:#888;">負責人：</b>${c.reporter||"—"}</span>
+          <div class="meta-row">
+            <span><b>是否退回品：</b>${c.hasReturn||"—"}</span>
+            <span><b>訂單編號：</b>${c.orderNo||"—"}</span>
+            <span><b>預計完成：</b>${c.dueDate||"—"}</span>
+            <span><b>責任單位：</b>${c.dept||"—"}</span>
           </div>
         </div>
-
       </div>
     </div>`;
   }).join("");
 }
 
-/* ── 展開 / 收合 ── */
 function tog(id) {
   const el = document.getElementById("c-" + CSS.escape(id));
   if (el) el.classList.toggle("open");
 }
 
-/* ── 統計 ── */
 function updateStats(list) {
   document.getElementById("sTotal").textContent   = list.length;
   document.getElementById("sOpen").textContent    = list.filter(c => c.status === "處理中").length;
@@ -501,7 +378,6 @@ function updateStats(list) {
   document.getElementById("rCount").textContent   = list.length;
 }
 
-/* ── 重建客戶下拉 ── */
 function rebuildClientFilter() {
   const sel = document.getElementById("fClient");
   const cur = sel.value;
@@ -510,34 +386,26 @@ function rebuildClientFilter() {
     clients.map(c => `<option${c === cur ? " selected" : ""}>${c}</option>`).join("");
 }
 
-/* ── 搜尋 ── */
 function search() {
   const kw = document.getElementById("kw").value.trim().toLowerCase();
   const cl = document.getElementById("fClient").value;
   const st = document.getElementById("fSt").value;
-
   const res = data.filter(c => {
-    const mKw = !kw || [c.id, c.client, c.complaint, c.actionShort, c.actionLong, c.verify]
+    const mKw = !kw || [c.id,c.client,c.complaint,c.current,c.cause,c.actionShort,c.actionLong,c.verify,c.orderNo]
       .join(" ").toLowerCase().includes(kw);
-    return mKw
-      && (!cl || c.client === cl)
-      && (!st || c.status === st);
+    return mKw && (!cl || c.client === cl) && (!st || c.status === st);
   });
-
   render(res, kw);
   updateStats(res);
 }
 
 function resetSearch() {
-  ["kw", "fClient", "fSt"].forEach(id => { document.getElementById(id).value = ""; });
+  ["kw","fClient","fSt"].forEach(id => { document.getElementById(id).value = ""; });
   search();
 }
 
-document.getElementById("kw").addEventListener("keydown", e => {
-  if (e.key === "Enter") search();
-});
+document.getElementById("kw").addEventListener("keydown", e => { if (e.key === "Enter") search(); });
 
-/* ── 清空 ── */
 function clearAll() {
   if (!data.length) return;
   if (!confirm("確定要清空所有資料嗎？")) return;
@@ -546,30 +414,26 @@ function clearAll() {
   search();
 }
 
-/* ── 從 row 物件建立記錄 ── */
 function makeRecord(row) {
-  const g = (...keys) => {
-    for (const k of keys) {
-      const v = (row[k] || "").toString().trim();
-      if (v) return v;
-    }
-    return "";
-  };
+  const g = (...keys) => { for (const k of keys) { const v=(row[k]||"").toString().trim(); if(v) return v; } return ""; };
   return {
-    id:          g("客戶抱怨處理單編號", "編號", "A") || ("ID-" + Date.now()),
-    client:      g("客戶", "B")       || "未知",
-    date:        g("日期", "C")       || "—",
-    status:      g("處理狀態", "狀態", "D") || "處理中",
-    complaint:   g("抱怨內容", "E")   || "",
-    actionShort: g("短期對策", "F")   || "",
-    actionLong:  g("長期對策", "G")   || "",
-    verify:      g("效果確認", "H")   || "",
-    closeDate:   g("結案日期", "I")   || "—",
-    reporter:    g("負責人", "J")     || ""
+    id:          g("客戶抱怨處理單編號","編號","A") || ("ID-"+Date.now()),
+    client:      g("客戶","B")         || "未知",
+    date:        g("日期","C")         || "—",
+    status:      g("處理狀態","狀態","D") || "處理中",
+    hasReturn:   g("是否退回品","E")   || "",
+    orderNo:     g("訂單編號","F")     || "",
+    complaint:   g("抱怨內容","G")     || "",
+    current:     g("現況分析","H")     || "",
+    cause:       g("發生原因","I")     || "",
+    actionShort: g("短期對策","J")     || "",
+    actionLong:  g("長期對策","K")     || "",
+    verify:      g("效果確認","L")     || "",
+    dueDate:     g("預計完成日期","M") || "",
+    dept:        g("責任單位","N")     || ""
   };
 }
 
-/* ── 匯入 Excel ── */
 function importFile(input) {
   const file = input.files[0];
   if (!file) return;
@@ -585,71 +449,42 @@ function importFile(input) {
       rebuildClientFilter();
       search();
       alert(`✅ 成功匯入 ${imported.length} 筆資料！`);
-    } catch (err) {
-      alert("❌ 解析失敗：" + err.message);
-    }
+    } catch (err) { alert("❌ 解析失敗：" + err.message); }
     input.value = "";
   };
   reader.readAsArrayBuffer(file);
 }
 
-/* ── 下載範本 ── */
 function downloadTemplate() {
-  const headers = [[
-    "客戶抱怨處理單編號", "客戶", "日期", "處理狀態",
-    "抱怨內容", "短期對策", "長期對策", "效果確認",
-    "結案日期", "負責人"
-  ]];
+  const headers = [["客戶抱怨處理單編號","客戶","日期","處理狀態","是否退回品","訂單編號","抱怨內容","現況分析","發生原因","短期對策","長期對策","效果確認","預計完成日期","責任單位"]];
   const ws = XLSX.utils.aoa_to_sheet(headers);
-  ws["!cols"] = [18, 8, 12, 10, 32, 28, 28, 20, 12, 10].map(w => ({ wch: w }));
+  ws["!cols"] = [18,8,12,10,20,14,32,28,28,28,28,20,14,12].map(w=>({wch:w}));
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "客訴資料");
   XLSX.writeFile(wb, "客訴處理單範本.xlsx");
 }
 
-/* ── 新增 Modal ── */
 function openAdd() { document.getElementById("addModal").classList.add("on"); }
-function closeAdd(e) {
-  if (!e || e.target.id === "addModal")
-    document.getElementById("addModal").classList.remove("on");
-}
+function closeAdd(e) { if (!e || e.target.id === "addModal") document.getElementById("addModal").classList.remove("on"); }
 
 function saveAdd() {
   const g = id => document.getElementById(id).value.trim();
-  const id = g("a_id"), cl = g("a_cl"), dt = g("a_dt"),
-        st = g("a_st"), comp = g("a_comp");
-
-  if (!id || !cl || !dt || !st || !comp) {
-    alert("請填寫所有標示 * 的必填欄位");
-    return;
-  }
-  if (data.find(c => c.id === id)) {
-    alert("此編號已存在：" + id);
-    return;
-  }
-
-  data.unshift({
-    id, client: cl, date: dt, status: st,
-    complaint:   comp,
-    actionShort: g("a_s1"),
-    actionLong:  g("a_s2"),
-    verify:      g("a_s3"),
-    closeDate:   g("a_cd") || "—",
-    reporter:    g("a_rp")
-  });
-
+  const id=g("a_id"), cl=g("a_cl"), dt=g("a_dt"), st=g("a_st"), comp=g("a_comp");
+  if (!id||!cl||!dt||!st||!comp) { alert("請填寫所有標示 * 的必填欄位"); return; }
+  if (data.find(c=>c.id===id)) { alert("此編號已存在："+id); return; }
+  data.unshift({ id, client:cl, date:dt, status:st,
+    hasReturn:g("a_ret"), orderNo:g("a_ord"), complaint:comp,
+    current:g("a_cur"), cause:g("a_cause"),
+    actionShort:g("a_s1"), actionLong:g("a_s2"), verify:g("a_s3"),
+    dueDate:g("a_due"), dept:g("a_dept") });
   rebuildClientFilter();
   search();
   closeAdd();
-
-  ["a_id","a_cl","a_dt","a_st","a_comp",
-   "a_s1","a_s2","a_s3","a_cd","a_rp"].forEach(id => {
-    document.getElementById(id).value = "";
-  });
-  alert("✅ 已新增：" + id);
+  ["a_id","a_cl","a_dt","a_st","a_ret","a_ord","a_comp","a_cur","a_cause","a_s1","a_s2","a_s3","a_due","a_dept"].forEach(id=>{ document.getElementById(id).value=""; });
+  alert("✅ 已新增："+id);
 }
 
-/* ── 初始化 ── */
+rebuildClientFilter();
 search();
 </script>
 </body>
