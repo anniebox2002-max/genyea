@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>客訴歷史查詢系統</title>
+  <title>客訴歷史查詢系統 — 晉億冷凍機械有限公司</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -23,19 +23,9 @@
       align-items: center;
       gap: 14px;
     }
-    header .logo {
-      font-size: 22px;
-    }
-    header h1 {
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-    header .sub {
-      font-size: 12px;
-      opacity: .7;
-      margin-left: auto;
-    }
+    header .logo { font-size: 22px; }
+    header h1 { font-size: 18px; font-weight: 600; letter-spacing: 1px; }
+    header .sub { font-size: 12px; opacity: .7; margin-left: auto; }
 
     /* ── 搜尋區塊 ── */
     .search-panel {
@@ -49,16 +39,8 @@
       flex-wrap: wrap;
       align-items: flex-end;
     }
-    .search-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .search-group label {
-      font-size: 12px;
-      color: #666;
-      font-weight: 600;
-    }
+    .search-group { display: flex; flex-direction: column; gap: 6px; }
+    .search-group label { font-size: 12px; color: #666; font-weight: 600; }
     .search-group input,
     .search-group select {
       padding: 9px 12px;
@@ -72,13 +54,9 @@
       min-width: 160px;
     }
     .search-group input:focus,
-    .search-group select:focus {
-      border-color: #3a7bd5;
-      background: #fff;
-    }
-    .search-group.keyword input {
-      min-width: 260px;
-    }
+    .search-group select:focus { border-color: #3a7bd5; background: #fff; }
+    .search-group.keyword input { min-width: 260px; }
+
     .btn {
       padding: 9px 22px;
       border: none;
@@ -90,16 +68,12 @@
       transition: background .15s, transform .1s;
     }
     .btn:active { transform: scale(.97); }
-    .btn-primary {
-      background: #3a7bd5;
-      color: #fff;
-    }
+    .btn-primary { background: #3a7bd5; color: #fff; }
     .btn-primary:hover { background: #2f6bbf; }
-    .btn-reset {
-      background: #eef1f6;
-      color: #555;
-    }
+    .btn-reset { background: #eef1f6; color: #555; }
     .btn-reset:hover { background: #e0e5ef; }
+    .btn-upload { background: #27ae60; color: #fff; }
+    .btn-upload:hover { background: #1e8449; }
 
     /* ── 統計列 ── */
     .stats-bar {
@@ -108,49 +82,26 @@
       gap: 24px;
       background: #fff;
       border-bottom: 1px solid #e0e4ea;
+      flex-wrap: wrap;
     }
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .stat-num {
-      font-size: 22px;
-      font-weight: 700;
-      color: #1a3a5c;
-    }
-    .stat-label {
-      font-size: 11px;
-      color: #888;
-      margin-top: 2px;
-    }
+    .stat-item { display: flex; flex-direction: column; align-items: center; }
+    .stat-num { font-size: 22px; font-weight: 700; color: #1a3a5c; }
+    .stat-label { font-size: 11px; color: #888; margin-top: 2px; }
     .stat-item.highlight .stat-num { color: #d44; }
 
     /* ── 結果區域 ── */
-    .result-area {
-      padding: 24px 32px;
-    }
+    .result-area { padding: 24px 32px; }
     .result-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 16px;
     }
-    .result-count {
-      font-size: 14px;
-      color: #555;
-    }
-    .result-count strong {
-      color: #1a3a5c;
-      font-size: 16px;
-    }
+    .result-count { font-size: 14px; color: #555; }
+    .result-count strong { color: #1a3a5c; font-size: 16px; }
 
     /* ── 卡片 ── */
-    .card-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+    .card-list { display: flex; flex-direction: column; gap: 12px; }
     .card {
       background: #fff;
       border: 1px solid #e0e4ea;
@@ -163,15 +114,9 @@
       cursor: pointer;
       transition: box-shadow .15s, border-color .15s;
     }
-    .card:hover {
-      box-shadow: 0 3px 12px rgba(58,123,213,.12);
-      border-color: #b8cbee;
-    }
-    .card.expanded {
-      border-color: #3a7bd5;
-    }
+    .card:hover { box-shadow: 0 3px 12px rgba(58,123,213,.12); border-color: #b8cbee; }
+    .card.expanded { border-color: #3a7bd5; }
 
-    /* 左側色條 */
     .card-badge {
       width: 4px;
       border-radius: 4px;
@@ -185,29 +130,10 @@
     .badge-service    { background: #27ae60; }
     .badge-others     { background: #95a5a6; }
 
-    .card-main {}
-    .card-top {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .card-case-no {
-      font-size: 12px;
-      color: #888;
-      font-family: monospace;
-    }
-    .card-client {
-      font-weight: 700;
-      font-size: 15px;
-      color: #1a3a5c;
-    }
-    .tag {
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-weight: 600;
-    }
+    .card-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .card-case-no { font-size: 12px; color: #888; font-family: monospace; }
+    .card-client { font-weight: 700; font-size: 15px; color: #1a3a5c; }
+    .tag { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600; }
     .tag-quality    { background: #fdecea; color: #c0392b; }
     .tag-delivery   { background: #fef0e0; color: #b7610a; }
     .tag-appearance { background: #f5eef8; color: #7d3c98; }
@@ -218,34 +144,14 @@
     .tag-closed     { background: #d1ecf1; color: #0c5460; }
     .tag-pending    { background: #f8d7da; color: #721c24; }
 
-    .card-title {
-      margin-top: 6px;
-      font-size: 14px;
-      color: #333;
-      line-height: 1.5;
-    }
+    .card-title { margin-top: 6px; font-size: 14px; color: #333; line-height: 1.5; }
     .card-meta {
-      margin-top: 6px;
-      font-size: 12px;
-      color: #999;
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
+      margin-top: 6px; font-size: 12px; color: #999;
+      display: flex; gap: 16px; flex-wrap: wrap;
     }
     .card-meta span { display: flex; align-items: center; gap: 4px; }
-
-    .card-right {
-      text-align: right;
-      font-size: 12px;
-      color: #999;
-      white-space: nowrap;
-      padding-top: 2px;
-    }
-    .card-date {
-      font-size: 14px;
-      color: #555;
-      font-weight: 600;
-    }
+    .card-right { text-align: right; font-size: 12px; color: #999; white-space: nowrap; padding-top: 2px; }
+    .card-date { font-size: 14px; color: #555; font-weight: 600; }
 
     /* 展開詳情 */
     .card-detail {
@@ -265,13 +171,39 @@
       gap: 10px 24px;
     }
     .detail-item { display: flex; gap: 8px; }
-    .detail-key {
-      color: #888;
-      min-width: 80px;
-      flex-shrink: 0;
-      font-weight: 600;
-    }
+    .detail-key { color: #888; min-width: 90px; flex-shrink: 0; font-weight: 600; }
     .detail-val { color: #333; }
+
+    /* 對策區塊 */
+    .countermeasure-box {
+      margin-top: 12px;
+      padding: 14px 16px;
+      background: #fffbea;
+      border: 1px solid #ffe58f;
+      border-radius: 6px;
+    }
+    .countermeasure-box h4 {
+      font-size: 13px;
+      color: #8a6d00;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cm-item {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+    .cm-label {
+      min-width: 70px;
+      color: #8a6d00;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .cm-val { color: #333; }
+
     .detail-full {
       margin-top: 10px;
       padding: 12px;
@@ -280,28 +212,58 @@
     }
     .detail-full p { margin-bottom: 6px; }
 
-    /* 空狀態 */
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: #aaa;
+    /* ── 上傳 Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
     }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: 10px;
+      padding: 28px 32px;
+      width: 520px;
+      max-width: 95vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 8px 32px rgba(0,0,0,.2);
+    }
+    .modal h2 { font-size: 16px; color: #1a3a5c; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .form-group label { font-size: 12px; font-weight: 600; color: #555; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 9px 12px;
+      border: 1px solid #cdd2da;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      background: #fafbfc;
+      outline: none;
+    }
+    .form-group textarea { resize: vertical; min-height: 70px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+    /* 空狀態 */
+    .empty-state { text-align: center; padding: 60px 20px; color: #aaa; }
     .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
     .empty-state p { font-size: 15px; }
 
-    /* ── 高亮關鍵字 ── */
-    mark {
-      background: #ffe066;
-      color: inherit;
-      border-radius: 2px;
-      padding: 0 1px;
-    }
+    mark { background: #ffe066; color: inherit; border-radius: 2px; padding: 0 1px; }
 
     @media (max-width: 600px) {
       header, .search-panel, .result-area { padding-left: 16px; padding-right: 16px; }
       .stats-bar { padding-left: 16px; padding-right: 16px; }
       .card { grid-template-columns: auto 1fr; }
       .card-right { display: none; }
+      .form-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -310,7 +272,7 @@
 <header>
   <span class="logo">📋</span>
   <h1>客訴歷史查詢系統</h1>
-  <span class="sub">晉億實業股份有限公司</span>
+  <span class="sub">晉億冷凍機械有限公司</span>
 </header>
 
 <!-- 搜尋區 -->
@@ -327,7 +289,6 @@
         <option>天合</option>
         <option>明駿</option>
         <option>玉鼎</option>
-        <option>晉億</option>
       </select>
     </div>
     <div class="search-group">
@@ -353,25 +314,26 @@
     </div>
     <button class="btn btn-primary" onclick="doSearch()">🔍 搜尋</button>
     <button class="btn btn-reset" onclick="resetSearch()">重設</button>
+    <button class="btn btn-upload" onclick="openModal()">＋ 新增客訴</button>
   </div>
 </div>
 
 <!-- 統計列 -->
-<div class="stats-bar" id="statsBar">
+<div class="stats-bar">
   <div class="stat-item">
-    <span class="stat-num" id="statTotal">13</span>
+    <span class="stat-num" id="statTotal">0</span>
     <span class="stat-label">總案件數</span>
   </div>
   <div class="stat-item highlight">
-    <span class="stat-num" id="statOpen">3</span>
+    <span class="stat-num" id="statOpen">0</span>
     <span class="stat-label">處理中</span>
   </div>
   <div class="stat-item">
-    <span class="stat-num" id="statClosed">9</span>
+    <span class="stat-num" id="statClosed">0</span>
     <span class="stat-label">已結案</span>
   </div>
   <div class="stat-item">
-    <span class="stat-num" id="statPending">1</span>
+    <span class="stat-num" id="statPending">0</span>
     <span class="stat-label">待確認</span>
   </div>
 </div>
@@ -379,16 +341,108 @@
 <!-- 搜尋結果 -->
 <div class="result-area">
   <div class="result-header">
-    <div class="result-count">共找到 <strong id="resultCount">13</strong> 筆記錄</div>
+    <div class="result-count">共找到 <strong id="resultCount">0</strong> 筆記錄</div>
   </div>
   <div class="card-list" id="cardList"></div>
 </div>
 
+<!-- 新增客訴 Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <h2>📝 新增客訴記錄</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label>案號 *</label>
+        <input type="text" id="f_id" placeholder="如 TH-115090101" />
+      </div>
+      <div class="form-group">
+        <label>客戶名稱 *</label>
+        <input type="text" id="f_client" placeholder="如 天合" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>客訴日期 *</label>
+        <input type="text" id="f_date" placeholder="115-09-01" />
+      </div>
+      <div class="form-group">
+        <label>問題分類 *</label>
+        <select id="f_category">
+          <option value="">請選擇</option>
+          <option>品質異常</option>
+          <option>交期延誤</option>
+          <option>外觀不良</option>
+          <option>尺寸超差</option>
+          <option>服務問題</option>
+          <option>其他</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>處理狀態 *</label>
+        <select id="f_status">
+          <option value="">請選擇</option>
+          <option>處理中</option>
+          <option>已結案</option>
+          <option>待確認</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>負責部門</label>
+        <input type="text" id="f_responsible" placeholder="品保部" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>問題標題 *</label>
+      <input type="text" id="f_title" placeholder="簡述客訴問題" />
+    </div>
+    <div class="form-group">
+      <label>客訴來源</label>
+      <input type="text" id="f_source" placeholder="如 客戶退貨、Email 通知" />
+    </div>
+    <div class="form-group">
+      <label>根本原因</label>
+      <textarea id="f_rootCause" placeholder="分析根本原因（建議使用 5-Why）"></textarea>
+    </div>
+    <div class="form-group">
+      <label>矯正措施（短期）</label>
+      <textarea id="f_actionShort" placeholder="立即採取的矯正行動"></textarea>
+    </div>
+    <div class="form-group">
+      <label>預防對策（長期）</label>
+      <textarea id="f_actionLong" placeholder="防止再發的系統性對策"></textarea>
+    </div>
+    <div class="form-group">
+      <label>效果確認</label>
+      <textarea id="f_verify" placeholder="對策實施後的驗證結果"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>結案日期</label>
+        <input type="text" id="f_closeDate" placeholder="尚未結案請填 —" />
+      </div>
+      <div class="form-group">
+        <label>建立人</label>
+        <input type="text" id="f_reporter" placeholder="姓名" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>詳細說明</label>
+      <textarea id="f_detail" placeholder="完整描述客訴情況、數量、影響範圍等"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-reset" onclick="closeModal()">取消</button>
+      <button class="btn btn-primary" onclick="submitForm()">✔ 儲存</button>
+    </div>
+  </div>
+</div>
+
 <script>
-/* ====================================================
-   資料集（依 PDF 檔名推導真實案號，內容為示範資料）
-   ==================================================== */
-const complaints = [
+/* ================================================================
+   資料集
+   ================================================================ */
+let complaints = [
   {
     id: "TH-114042401",
     client: "天合",
@@ -398,32 +452,36 @@ const complaints = [
     tagClass: "tag-quality",
     status: "已結案",
     statusClass: "tag-closed",
-    title: "來料混入異材質，導致衝壓後毛邊過大",
+    title: "冷凍壓縮機配管焊接不良，洩漏測試失敗",
     responsible: "品保部",
-    source: "客戶來電反映",
-    rootCause: "原料廠混料，進料檢驗未攔截",
-    action: "退料重工，強化進料全檢作業",
-    closeDate: "114-05-10",
-    reporter: "黃○○",
-    detail: "天合客訴 114-04-24：來料批次 LOT#A2401 混入 SUS304 與 SUS430 異材質，導致下游衝壓製程出現毛邊超標 0.15mm（標準 ≤0.08mm）。已全數退貨並啟動供應商稽核。"
+    source: "客戶退貨",
+    rootCause: "焊接作業員技術不足，氬焊參數未標準化",
+    actionShort: "退貨全數重工，重新進行洩漏測試",
+    actionLong: "建立焊接 SOP 及作業員認證制度，增加焊接首件確認",
+    verify: "重工後 100% 洩漏測試合格，連續 30 天無再發",
+    closeDate: "114-05-20",
+    reporter: "李○○",
+    detail: "天合客訴 114-04-24：冷凍壓縮機配管焊接處洩漏，客戶進行系統氣密測試（測試壓力 25 kg/cm²）時發現洩漏點，批次共 12 台全數退回。查明為焊接作業員操作不當，已完成全員焊接技術再訓練。"
   },
   {
     id: "TH-114071201",
     client: "天合",
     date: "114-07-12",
-    category: "尺寸超差",
-    badgeClass: "badge-dimension",
-    tagClass: "tag-dimension",
+    category: "品質異常",
+    badgeClass: "badge-quality",
+    tagClass: "tag-quality",
     status: "已結案",
     statusClass: "tag-closed",
-    title: "支架孔位偏移 0.3mm，組裝無法配合",
+    title: "冷凍機組噪音異常，超出規格值",
     responsible: "製造部",
-    source: "客戶 8D 回覆",
-    rootCause: "治具磨損超出換修週期，孔距累積偏差",
-    action: "治具汰換，增加每班首件確認頻率",
-    closeDate: "114-07-28",
-    reporter: "林○○",
-    detail: "天合針對 P/N TH-5521 支架反映孔位 X 軸偏移 +0.30mm，超出圖面 ±0.15mm 公差。查明為衝床治具磨耗導致，已更換治具並補出合格品 500pcs。"
+    source: "客戶 Email 通知",
+    rootCause: "壓縮機底座防震墊安裝位置偏移，造成共振",
+    actionShort: "現場派員重新安裝防震墊，確認噪音值合格",
+    actionLong: "制定防震墊安裝檢查表，出廠前增加噪音測試項目",
+    verify: "重新安裝後噪音值降至 58dB（規格 ≤65dB），客戶確認合格",
+    closeDate: "114-07-30",
+    reporter: "黃○○",
+    detail: "天合反映冷凍機組運轉噪音達 78dB，超出合約規格 ≤65dB。現場確認為壓縮機底座防震墊安裝偏移 15mm，導致機組共振。已派技術人員赴客戶現場重新安裝，並更新出廠檢驗標準。"
   },
   {
     id: "TH-115032701",
@@ -434,14 +492,16 @@ const complaints = [
     tagClass: "tag-appearance",
     status: "已結案",
     statusClass: "tag-closed",
-    title: "電鍍表面出現霧點，客戶驗收不通過",
+    title: "機箱烤漆表面起泡，外觀驗收不通過",
     responsible: "品保部",
     source: "客戶退貨單",
-    rootCause: "電鍍槽液 pH 值超標，陽極電流密度不穩定",
-    action: "槽液全換，電流密度重新校正，出廠全檢",
-    closeDate: "115-04-12",
+    rootCause: "烤漆前底材除油不徹底，油脂殘留導致附著力不足",
+    actionShort: "全批退回重新烤漆，前處理增加二次除油步驟",
+    actionLong: "修訂烤漆前處理 SOP，增加附著力測試（百格測試）",
+    verify: "重新烤漆後百格測試 0/100 脫落，客戶驗收通過",
+    closeDate: "115-04-15",
     reporter: "陳○○",
-    detail: "天合回報 P/N TH-8832 電鍍件表面出現 2~5mm 圓形霧點，不符合 RoHS 表面品質規範。經查電鍍廠槽液 pH 偏高至 5.8（正常 4.5±0.3），已要求電鍍廠改善並全數重鍍。"
+    detail: "天合回報機箱烤漆面出現 3~8mm 起泡，不符合外觀規範。檢查確認為底材除油不足，油脂殘留導致烤漆附著力下降。已要求烤漆廠強化前處理流程，並導入出廠附著力抽驗。"
   },
   {
     id: "TH-115062901",
@@ -452,14 +512,16 @@ const complaints = [
     tagClass: "tag-delivery",
     status: "處理中",
     statusClass: "tag-open",
-    title: "Q3 備料延誤 5 天，影響客戶生產排程",
+    title: "冷凍機組交期延誤 7 天，影響客戶工程進度",
     responsible: "業務部 / 採購部",
     source: "客戶 Email 通知",
-    rootCause: "原材料缺貨，替代供應商認證未完成",
-    action: "緊急採購空運，補救方案議定中",
+    rootCause: "冷凍壓縮機零件缺貨，進口備料週期評估失誤",
+    actionShort: "緊急空運進口零件，優先排程生產",
+    actionLong: "建立關鍵零件安全庫存機制，進口零件提前 60 天備料",
+    verify: "確認中",
     closeDate: "—",
     reporter: "吳○○",
-    detail: "天合因冷軋鋼帶缺料，導致訂單 PO-115062901 延遲交貨，已影響客戶三條生產線停線 2 天。目前正與兩家替代供應商進行快速認證，預計 115-07-10 可恢復正常供貨。"
+    detail: "天合因冷凍壓縮機進口零件（型號 SC10G）缺貨，導致訂單 PO-115062901 延遲交貨 7 天，影響客戶廠房裝機時程。目前緊急空運零件預計 115-07-08 到港，生產排程已調整優先完成此訂單。"
   },
   {
     id: "TH-115082601",
@@ -470,14 +532,16 @@ const complaints = [
     tagClass: "tag-quality",
     status: "處理中",
     statusClass: "tag-open",
-    title: "焊接強度不足，破壞測試低於規格值",
-    responsible: "製造部",
-    source: "客戶 PPAP 失效報告",
+    title: "冷凍機組冷媒充填量不足，冷卻效能不達標",
+    responsible: "品保部",
+    source: "客戶現場驗收報告",
     rootCause: "調查中",
-    action: "召開緊急品質會議，取樣送外部實驗室",
+    actionShort: "派員赴客戶現場補充冷媒，重新測試效能",
+    actionLong: "調查中，待確認根本原因後制定對策",
+    verify: "待確認",
     closeDate: "—",
     reporter: "張○○",
-    detail: "天合最新來件（115-08-26）：P/N TH-9101 焊接樣品破壞測試僅達 820N，低於規格要求 1200N。目前已暫停出貨，品保部正進行全面參數追查，8D 報告預計 115-09-05 完成。"
+    detail: "天合最新來件（115-08-26）：冷凍機組現場驗收時冷卻效能僅達額定值 85%（規格 ≥95%），初步判斷為冷媒充填量不足。目前已派技術人員赴現場處理，8D 報告預計 115-09-10 完成。"
   },
   {
     id: "MJ-114040202",
@@ -488,14 +552,16 @@ const complaints = [
     tagClass: "tag-quality",
     status: "已結案",
     statusClass: "tag-closed",
-    title: "衝壓件批量毛邊超標，外觀 A 面不合格",
+    title: "冷凍配件管路接頭洩漏，氣密測試不通過",
     responsible: "品保部",
     source: "客戶退貨",
-    rootCause: "模具刃口磨耗，未依保養週期更換",
-    action: "模具維修，制定模具保養 SOP 並追蹤 3 個月",
+    rootCause: "管路接頭扭力不足，作業員未依 SOP 使用扭力扳手",
+    actionShort: "退貨全數重新鎖附，逐一進行氣密測試",
+    actionLong: "強制使用扭力扳手並記錄，增加出廠氣密全檢",
+    verify: "重工後全數氣密測試合格，連續 2 個月無再發",
     closeDate: "114-05-15",
     reporter: "李○○",
-    detail: "明駿退回批次 M2402-A 共 1,200pcs，毛邊高度 0.2~0.4mm（規格 ≤0.1mm）。查核模具刃口已磨耗 0.08mm，超出換修標準 0.05mm。已完成模具研磨，重新生產送樣確認中。"
+    detail: "明駿退回批次共 35 組冷凍配件，氣密測試（1.5MPa）發現 8 組接頭洩漏。查核現場作業確認未使用扭力扳手，接頭扭力僅達規格的 60%。已完成全員重新訓練並導入扭力記錄表單。"
   },
   {
     id: "MJ-114072901",
@@ -506,14 +572,16 @@ const complaints = [
     tagClass: "tag-appearance",
     status: "已結案",
     statusClass: "tag-closed",
-    title: "電鍍層脫落，客戶使用中發現鏽蝕",
+    title: "控制箱面板印刷模糊，文字無法辨識",
     responsible: "品保部",
     source: "客戶品質異常通知",
-    rootCause: "前處理酸洗時間不足，基材殘留油脂",
-    action: "修訂前處理作業標準，增加油脂殘留檢測步驟",
-    closeDate: "114-08-20",
+    rootCause: "絹印油墨濃度不足，印刷機速過快",
+    actionShort: "全批退回重新絹印",
+    actionLong: "訂定油墨濃度標準及印刷速度上限，增加印刷首件確認",
+    verify: "重新印刷後目視確認清晰，客戶驗收通過",
+    closeDate: "114-08-25",
     reporter: "王○○",
-    detail: "明駿 P/N MJ-3301 在客戶端使用 3 個月後出現電鍍層局部脫落及鏽蝕。鹽霧測試複驗僅達 48 小時（規格 ≥96 小時），根本原因為酸洗不足，已強化前處理管控。"
+    detail: "明駿回報控制箱面板上的操作說明文字模糊，部分字元無法辨識，不符合客戶驗收標準。查明為絹印油墨濃度偏低（實際 18%，標準 22±2%）且印刷速度過快造成油墨量不足，已全批重工。"
   },
   {
     id: "MJ-115031001",
@@ -524,14 +592,16 @@ const complaints = [
     tagClass: "tag-dimension",
     status: "已結案",
     statusClass: "tag-closed",
-    title: "折彎角度偏差 ±2°，超出圖面公差要求",
+    title: "冷凍機組安裝孔距偏差，無法與底座配合",
     responsible: "製造部",
     source: "客戶來件檢驗",
-    rootCause: "折彎機壓力補償參數未隨材料批次調整",
-    action: "建立材料硬度與壓力補償對應表，首件確認流程調整",
-    closeDate: "115-04-02",
+    rootCause: "鑽孔治具磨耗，孔距累積誤差超出公差",
+    actionShort: "退貨重新鑽孔，更換磨耗治具",
+    actionLong: "訂定治具檢驗週期（每 500 件量測一次），建立治具壽命台帳",
+    verify: "更換治具後孔距量測合格，首批送樣客戶確認通過",
+    closeDate: "115-04-05",
     reporter: "林○○",
-    detail: "明駿 P/N MJ-5522 折彎角度實測 88°±3°（圖面要求 90°±1°），批量 800pcs 全數不合格。查明為鋼板批次硬度偏高（HRB 85 vs 標準 HRB 80），需重新設定折彎補償量。"
+    detail: "明駿回報冷凍機組底座安裝孔距偏差 +0.8mm（圖面公差 ±0.3mm），導致無法與客戶底座螺孔配合。查核治具發現磨耗超過換修標準，已立即更換治具並重新加工，補出合格品交貨。"
   },
   {
     id: "MJ-115062201",
@@ -542,14 +612,16 @@ const complaints = [
     tagClass: "tag-service",
     status: "待確認",
     statusClass: "tag-pending",
-    title: "客戶反映技術文件提供不及時，影響認證進度",
+    title: "售後服務回應時間過長，客戶反映維修等待超過 48 小時",
     responsible: "業務部",
     source: "客戶定期審查會議",
-    rootCause: "內部文件簽審流程無 SLA 規範",
-    action: "制定文件回覆 SLA（3 個工作天），設立追蹤機制",
+    rootCause: "售後服務人力不足，派工流程無 SLA 規範",
+    actionShort: "緊急調派人員支援，優先處理積壓服務案件",
+    actionLong: "制定售後服務 SLA（緊急 4 小時內、一般 24 小時內），建立派工排班制度",
+    verify: "待客戶確認改善成效後結案",
     closeDate: "—",
     reporter: "陳○○",
-    detail: "明駿品質主管於 115-06-22 例行會議中反映，PPAP 文件申請後平均等待 12 個工作天才收到回覆，遠超業界標準 5 天。業務部已啟動內部流程改善，等待客戶確認改善方案後結案。"
+    detail: "明駿品質主管於 115-06-22 例行會議中反映，冷凍機組故障報修後平均等待 52 小時才有人員到場，遠超合約承諾 24 小時。業務部已啟動服務流程改善，預計 115-07-31 前完成制度建立。"
   },
   {
     id: "YD-114051301",
@@ -560,14 +632,16 @@ const complaints = [
     tagClass: "tag-quality",
     status: "已結案",
     statusClass: "tag-closed",
-    title: "端子壓接力不足，電氣接觸電阻超標",
+    title: "冷凍機組電控箱接線錯誤，通電後跳電",
     responsible: "製造部",
     source: "客戶來電",
-    rootCause: "壓接模具磨耗，壓接高度漂移 0.05mm",
-    action: "更換模具，調整壓接高度監控上下限",
-    closeDate: "114-06-10",
+    rootCause: "接線作業員看錯配線圖版本（使用舊版圖面），文件管控不良",
+    actionShort: "現場派員重新配線並測試，確認功能正常",
+    actionLong: "導入文件版本管控系統，作業前強制確認最新版圖面",
+    verify: "重新配線後通電測試正常，連續運轉 72 小時無異常",
+    closeDate: "114-06-15",
     reporter: "黃○○",
-    detail: "玉鼎反映 P/N YD-7701 端子壓接件電氣接觸電阻超過 5mΩ（規格 ≤2mΩ），已導致客戶端線束組裝良率下降至 82%。壓接模具維修後複驗合格，已重新供貨。"
+    detail: "玉鼎反映新安裝冷凍機組通電後立即跳電，無法啟動。現場確認為電控箱 R/S/T 三相接線順序錯誤，導致相序保護器動作。查明原因為作業員使用舊版配線圖（Rev.A 而非 Rev.C），已完成文件版本管控改善。"
   },
   {
     id: "YD-114090101",
@@ -578,14 +652,16 @@ const complaints = [
     tagClass: "tag-appearance",
     status: "已結案",
     statusClass: "tag-closed",
-    title: "塑膠件表面縮水痕，外觀等級不符規範",
+    title: "機組外殼鈑金刮傷，運送過程防護不足",
     responsible: "品保部",
-    source: "客戶退貨",
-    rootCause: "射出成型保壓時間不足，料溫偏低",
-    action: "重新設定保壓參數，增加料溫監控警報",
-    closeDate: "114-09-25",
+    source: "客戶到貨檢驗",
+    rootCause: "出貨包裝防護材不足，長途運輸時外殼互相摩擦",
+    actionShort: "現場補貼保護膜修補，並確認功能不受影響",
+    actionLong: "重新設計出貨包裝，增加泡棉隔離及固定措施",
+    verify: "新包裝設計完成，試驗運送 3 批次均無刮傷，客戶確認通過",
+    closeDate: "114-10-01",
     reporter: "吳○○",
-    detail: "玉鼎退回 P/N YD-8821 塑膠殼體 600pcs，外觀 A 面出現明顯縮水痕（Grade B 不可接受）。射出條件確認料溫 240°C（標準 260±5°C），保壓不足。已調整參數重新生產。"
+    detail: "玉鼎到貨開箱檢驗發現機組外殼多處刮傷，最大刮痕長度 15cm，不符合外觀驗收標準。查明為包裝時外殼間僅用紙板隔離，長途運輸震動造成摩擦。已重新設計包裝方式，增加 EPE 泡棉固定。"
   },
   {
     id: "YD-115010801",
@@ -596,43 +672,42 @@ const complaints = [
     tagClass: "tag-quality",
     status: "已結案",
     statusClass: "tag-closed",
-    title: "螺絲扭力值異常，鎖附後出現滑牙現象",
+    title: "冷凍機組冷媒管路安裝後壓力異常下降",
     responsible: "品保部",
     source: "客戶 8D 要求",
-    rootCause: "螺絲批次硬度不足，供應商製程異常",
-    action: "更換供應商並加嚴進料硬度全檢",
-    closeDate: "115-02-05",
+    rootCause: "管路焊接處有微小氣孔，氦氣洩漏檢測未發現",
+    actionShort: "現場重新焊接洩漏處，補充冷媒並確認壓力穩定",
+    actionLong: "強化氦氣洩漏檢測靈敏度設定，加嚴焊接檢驗標準",
+    verify: "重新焊接後壓力監測 7 天無下降，客戶驗收通過",
+    closeDate: "115-02-10",
     reporter: "王○○",
-    detail: "玉鼎 P/N YD-9901 鎖附組裝後有約 3% 滑牙率，遠高於允收 0.1%。螺絲硬度量測均值 HRC 25（規格 HRC 32~36），確認為供應商熱處理異常。已更換供應商並完成重新認證。"
-  },
-  {
-    id: "JY-EARS-001",
-    client: "晉億",
-    date: "115-04-15",
-    category: "品質異常",
-    badgeClass: "badge-quality",
-    tagClass: "tag-quality",
-    status: "已結案",
-    statusClass: "tag-closed",
-    title: "內部稽核發現客訴 EARS 流程執行落差",
-    responsible: "品保部",
-    source: "內部稽核",
-    rootCause: "EARS 表單填寫不完整，根因分析深度不足（未達 5-Why）",
-    action: "舉辦 8D/5-Why 教育訓練，修訂 EARS 表單填寫指引",
-    closeDate: "115-05-01",
-    reporter: "李○○",
-    detail: "內部年度稽核發現 Q1 共 6 件客訴 EARS 報告中有 3 件根因分析停留於現象層，未追溯至系統根因。已安排全品保人員進行 8D 方法論訓練，並建立 EARS 審查機制，確保品質。"
+    detail: "玉鼎反映冷凍機組安裝完成後系統壓力在 48 小時內從 18 bar 下降至 14 bar，確認有冷媒洩漏。現場以氦氣偵測儀找到 2 處微小洩漏點（焊道氣孔），重新焊接後系統壓力維持穩定。"
   }
 ];
 
-/* ─── 工具：高亮關鍵字 ─── */
+/* ── 分類對應 ── */
+const categoryMap = {
+  "品質異常":  { badge: "badge-quality",    tag: "tag-quality"    },
+  "交期延誤":  { badge: "badge-delivery",   tag: "tag-delivery"   },
+  "外觀不良":  { badge: "badge-appearance", tag: "tag-appearance" },
+  "尺寸超差":  { badge: "badge-dimension",  tag: "tag-dimension"  },
+  "服務問題":  { badge: "badge-service",    tag: "tag-service"    },
+  "其他":      { badge: "badge-others",     tag: "tag-others"     }
+};
+const statusMap = {
+  "處理中": "tag-open",
+  "已結案": "tag-closed",
+  "待確認": "tag-pending"
+};
+
+/* ── 高亮關鍵字 ── */
 function highlight(text, kw) {
-  if (!kw) return text;
+  if (!kw || !text) return text || "";
   const esc = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return text.replace(new RegExp(esc, 'gi'), m => `<mark>${m}</mark>`);
+  return String(text).replace(new RegExp(esc, 'gi'), m => `<mark>${m}</mark>`);
 }
 
-/* ─── 渲染卡片 ─── */
+/* ── 渲染卡片 ── */
 function renderCards(data, kw) {
   const list = document.getElementById('cardList');
   if (data.length === 0) {
@@ -653,21 +728,26 @@ function renderCards(data, kw) {
         </div>
         <div class="card-title">${hl(c.title)}</div>
         <div class="card-meta">
-          <span>📅 客訴日期：${c.date}</span>
-          <span>👤 負責部門：${c.responsible}</span>
-          <span>📌 來源：${c.source}</span>
+          <span>📅 ${c.date}</span>
+          <span>👤 ${c.responsible}</span>
+          <span>📌 ${c.source}</span>
         </div>
       </div>
       <div class="card-right">
         <div class="card-date">${c.date}</div>
-        <div>▼</div>
+        <div style="margin-top:4px">▼</div>
       </div>
       <div class="card-detail">
         <div class="detail-grid">
           <div class="detail-item"><span class="detail-key">根本原因</span><span class="detail-val">${hl(c.rootCause)}</span></div>
-          <div class="detail-item"><span class="detail-key">矯正措施</span><span class="detail-val">${hl(c.action)}</span></div>
           <div class="detail-item"><span class="detail-key">結案日期</span><span class="detail-val">${c.closeDate}</span></div>
           <div class="detail-item"><span class="detail-key">建立人</span><span class="detail-val">${c.reporter}</span></div>
+        </div>
+        <div class="countermeasure-box">
+          <h4>🛠 對策提出</h4>
+          <div class="cm-item"><span class="cm-label">短期矯正</span><span class="cm-val">${hl(c.actionShort)}</span></div>
+          <div class="cm-item"><span class="cm-label">長期預防</span><span class="cm-val">${hl(c.actionLong)}</span></div>
+          <div class="cm-item"><span class="cm-label">效果確認</span><span class="cm-val">${hl(c.verify)}</span></div>
         </div>
         <div class="detail-full"><p>${hl(c.detail)}</p></div>
       </div>
@@ -675,13 +755,11 @@ function renderCards(data, kw) {
   }).join('');
 }
 
-/* ─── 展開 / 收合卡片 ─── */
 function toggleCard(id) {
-  const card = document.getElementById('card-' + id);
-  card.classList.toggle('expanded');
+  document.getElementById('card-' + id).classList.toggle('expanded');
 }
 
-/* ─── 搜尋邏輯 ─── */
+/* ── 搜尋 ── */
 function doSearch() {
   const kw       = document.getElementById('keyword').value.trim().toLowerCase();
   const client   = document.getElementById('filterClient').value;
@@ -689,12 +767,12 @@ function doSearch() {
   const status   = document.getElementById('filterStatus').value;
 
   const result = complaints.filter(c => {
-    const matchKw = !kw || [c.id, c.client, c.title, c.rootCause, c.action, c.detail, c.source]
+    const matchKw = !kw || [c.id, c.client, c.title, c.rootCause, c.actionShort, c.actionLong, c.verify, c.detail, c.source]
       .join(' ').toLowerCase().includes(kw);
-    const matchClient   = !client   || c.client   === client;
-    const matchCategory = !category || c.category === category;
-    const matchStatus   = !status   || c.status   === status;
-    return matchKw && matchClient && matchCategory && matchStatus;
+    return matchKw
+      && (!client   || c.client   === client)
+      && (!category || c.category === category)
+      && (!status   || c.status   === status);
   });
 
   document.getElementById('resultCount').textContent = result.length;
@@ -710,19 +788,76 @@ function updateStats(data) {
 }
 
 function resetSearch() {
-  document.getElementById('keyword').value        = '';
-  document.getElementById('filterClient').value   = '';
-  document.getElementById('filterCategory').value = '';
-  document.getElementById('filterStatus').value   = '';
+  ['keyword','filterClient','filterCategory','filterStatus'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
   doSearch();
 }
 
-/* ─── Enter 觸發搜尋 ─── */
 document.getElementById('keyword').addEventListener('keydown', e => {
   if (e.key === 'Enter') doSearch();
 });
 
-/* ─── 初始載入 ─── */
+/* ── Modal ── */
+function openModal() {
+  document.getElementById('modalOverlay').classList.add('active');
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  ['f_id','f_client','f_date','f_category','f_status','f_responsible',
+   'f_title','f_source','f_rootCause','f_actionShort','f_actionLong',
+   'f_verify','f_closeDate','f_reporter','f_detail'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+}
+function closeModalOutside(e) {
+  if (e.target.id === 'modalOverlay') closeModal();
+}
+
+function submitForm() {
+  const get = id => document.getElementById(id).value.trim();
+  const id       = get('f_id');
+  const client   = get('f_client');
+  const date     = get('f_date');
+  const category = get('f_category');
+  const status   = get('f_status');
+  const title    = get('f_title');
+
+  if (!id || !client || !date || !category || !status || !title) {
+    alert('請填寫所有標示 * 的必填欄位');
+    return;
+  }
+  if (complaints.find(c => c.id === id)) {
+    alert('案號已存在，請確認案號是否重複');
+    return;
+  }
+
+  const cm = categoryMap[category] || { badge: 'badge-others', tag: 'tag-others' };
+  const newRecord = {
+    id, client, date, category,
+    badgeClass: cm.badge,
+    tagClass:   cm.tag,
+    status,
+    statusClass: statusMap[status] || 'tag-open',
+    title,
+    responsible: get('f_responsible') || '—',
+    source:      get('f_source')      || '—',
+    rootCause:   get('f_rootCause')   || '—',
+    actionShort: get('f_actionShort') || '—',
+    actionLong:  get('f_actionLong')  || '—',
+    verify:      get('f_verify')      || '待確認',
+    closeDate:   get('f_closeDate')   || '—',
+    reporter:    get('f_reporter')    || '—',
+    detail:      get('f_detail')      || '—'
+  };
+
+  complaints.unshift(newRecord);
+  closeModal();
+  doSearch();
+  alert(`✅ 案號 ${id} 已新增成功！`);
+}
+
+/* ── 初始載入 ── */
 doSearch();
 </script>
 </body>
