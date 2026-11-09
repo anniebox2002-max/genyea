@@ -78,6 +78,16 @@
     .meta-row { display: flex; gap: 24px; flex-wrap: wrap; font-size: 13px; color: #555; }
     .meta-row b { color: #888; }
 
+    /* ── 單筆刪除按鈕 ── */
+    .del-btn {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 5px 12px; border: 1px solid #e05050;
+      border-radius: 5px; font-size: 12px; font-weight: 700;
+      color: #c0392b; background: #fff; cursor: pointer;
+      transition: background .15s;
+    }
+    .del-btn:hover { background: #fdecea; }
+
     .empty { text-align: center; padding: 60px 20px; color: #bbb; }
     .empty .eicon { font-size: 54px; margin-bottom: 14px; }
     .empty p { font-size: 15px; margin-bottom: 20px; }
@@ -359,6 +369,9 @@ function render(list, kw) {
             <span><b>預計完成：</b>${c.dueDate||"—"}</span>
             <span><b>責任單位：</b>${c.dept||"—"}</span>
           </div>
+          <div style="margin-top:12px;">
+            <button class="del-btn" onclick="event.stopPropagation(); deleteRecord('${c.id.replace(/'/g,"\\'")}')">🗑 刪除此筆</button>
+          </div>
         </div>
       </div>
     </div>`;
@@ -414,6 +427,16 @@ function clearAll() {
   search();
 }
 
+/* ── 單筆刪除 ── */
+function deleteRecord(id) {
+  const rec = data.find(c => c.id === id);
+  if (!rec) return;
+  if (!confirm(`確定要刪除編號「${id}」的記錄嗎？`)) return;
+  data = data.filter(c => c.id !== id);
+  rebuildClientFilter();
+  search();
+}
+
 function makeRecord(row) {
   const g = (...keys) => { for (const k of keys) { const v=(row[k]||"").toString().trim(); if(v) return v; } return ""; };
   return {
@@ -444,11 +467,21 @@ function importFile(input) {
       const ws   = wb.Sheets[wb.SheetNames[0]];
       const rows = XLSX.utils.sheet_to_json(ws, { defval: "" });
       if (!rows.length) { alert("Excel 內沒有資料，請確認格式。"); return; }
-      const imported = rows.map(makeRecord);
+
+      // ── 過濾空白列：A欄（編號）或 G欄（抱怨內容）至少一個有值才算有效資料 ──
+      const validRows = rows.filter(row => {
+        const id   = (row["客戶抱怨處理單編號"] || row["編號"] || row["A"] || "").toString().trim();
+        const comp = (row["抱怨內容"] || row["G"] || "").toString().trim();
+        return id || comp;
+      });
+
+      if (!validRows.length) { alert("找不到有效資料列，請確認 Excel 的欄位標題是否正確。"); return; }
+
+      const imported = validRows.map(makeRecord);
       data = [...data, ...imported];
       rebuildClientFilter();
       search();
-      alert(`✅ 成功匯入 ${imported.length} 筆資料！`);
+      alert(`✅ 成功匯入 ${imported.length} 筆資料！（已自動過濾空白列）`);
     } catch (err) { alert("❌ 解析失敗：" + err.message); }
     input.value = "";
   };
