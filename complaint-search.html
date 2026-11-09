@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>客訴歷史查詢系統</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+      background: #f4f6f9;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    /* ── 頂部標題列 ── */
+    header {
+      background: #1a3a5c;
+      color: #fff;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    header .logo {
+      font-size: 22px;
+    }
+    header h1 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    header .sub {
+      font-size: 12px;
+      opacity: .7;
+      margin-left: auto;
+    }
+
+    /* ── 搜尋區塊 ── */
+    .search-panel {
+      background: #fff;
+      padding: 24px 32px;
+      border-bottom: 1px solid #e0e4ea;
+    }
+    .search-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .search-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .search-group label {
+      font-size: 12px;
+      color: #666;
+      font-weight: 600;
+    }
+    .search-group input,
+    .search-group select {
+      padding: 9px 12px;
+      border: 1px solid #cdd2da;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      background: #fafbfc;
+      outline: none;
+      transition: border-color .2s;
+      min-width: 160px;
+    }
+    .search-group input:focus,
+    .search-group select:focus {
+      border-color: #3a7bd5;
+      background: #fff;
+    }
+    .search-group.keyword input {
+      min-width: 260px;
+    }
+    .btn {
+      padding: 9px 22px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background .15s, transform .1s;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn-primary {
+      background: #3a7bd5;
+      color: #fff;
+    }
+    .btn-primary:hover { background: #2f6bbf; }
+    .btn-reset {
+      background: #eef1f6;
+      color: #555;
+    }
+    .btn-reset:hover { background: #e0e5ef; }
+
+    /* ── 統計列 ── */
+    .stats-bar {
+      padding: 14px 32px;
+      display: flex;
+      gap: 24px;
+      background: #fff;
+      border-bottom: 1px solid #e0e4ea;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .stat-num {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a3a5c;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: #888;
+      margin-top: 2px;
+    }
+    .stat-item.highlight .stat-num { color: #d44; }
+
+    /* ── 結果區域 ── */
+    .result-area {
+      padding: 24px 32px;
+    }
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .result-count {
+      font-size: 14px;
+      color: #555;
+    }
+    .result-count strong {
+      color: #1a3a5c;
+      font-size: 16px;
+    }
+
+    /* ── 卡片 ── */
+    .card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e0e4ea;
+      border-radius: 8px;
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0 20px;
+      align-items: start;
+      cursor: pointer;
+      transition: box-shadow .15s, border-color .15s;
+    }
+    .card:hover {
+      box-shadow: 0 3px 12px rgba(58,123,213,.12);
+      border-color: #b8cbee;
+    }
+    .card.expanded {
+      border-color: #3a7bd5;
+    }
+
+    /* 左側色條 */
+    .card-badge {
+      width: 4px;
+      border-radius: 4px;
+      min-height: 56px;
+      align-self: stretch;
+    }
+    .badge-quality    { background: #e05050; }
+    .badge-delivery   { background: #e08020; }
+    .badge-appearance { background: #9b59b6; }
+    .badge-dimension  { background: #3a7bd5; }
+    .badge-service    { background: #27ae60; }
+    .badge-others     { background: #95a5a6; }
+
+    .card-main {}
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .card-case-no {
+      font-size: 12px;
+      color: #888;
+      font-family: monospace;
+    }
+    .card-client {
+      font-weight: 700;
+      font-size: 15px;
+      color: #1a3a5c;
+    }
+    .tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    .tag-quality    { background: #fdecea; color: #c0392b; }
+    .tag-delivery   { background: #fef0e0; color: #b7610a; }
+    .tag-appearance { background: #f5eef8; color: #7d3c98; }
+    .tag-dimension  { background: #eaf1fb; color: #1a5db0; }
+    .tag-service    { background: #eafaf1; color: #1e8449; }
+    .tag-others     { background: #f2f3f4; color: #5d6d7e; }
+    .tag-open       { background: #fff3cd; color: #856404; }
+    .tag-closed     { background: #d1ecf1; color: #0c5460; }
+    .tag-pending    { background: #f8d7da; color: #721c24; }
+
+    .card-title {
+      margin-top: 6px;
+      font-size: 14px;
+      color: #333;
+      line-height: 1.5;
+    }
+    .card-meta {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #999;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .card-meta span { display: flex; align-items: center; gap: 4px; }
+
+    .card-right {
+      text-align: right;
+      font-size: 12px;
+      color: #999;
+      white-space: nowrap;
+      padding-top: 2px;
+    }
+    .card-date {
+      font-size: 14px;
+      color: #555;
+      font-weight: 600;
+    }
+
+    /* 展開詳情 */
+    .card-detail {
+      display: none;
+      grid-column: 1 / -1;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed #dde2ea;
+      font-size: 13px;
+      color: #555;
+      line-height: 1.8;
+    }
+    .card.expanded .card-detail { display: block; }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 10px 24px;
+    }
+    .detail-item { display: flex; gap: 8px; }
+    .detail-key {
+      color: #888;
+      min-width: 80px;
+      flex-shrink: 0;
+      font-weight: 600;
+    }
+    .detail-val { color: #333; }
+    .detail-full {
+      margin-top: 10px;
+      padding: 12px;
+      background: #f8f9fc;
+      border-radius: 6px;
+    }
+    .detail-full p { margin-bottom: 6px; }
+
+    /* 空狀態 */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #aaa;
+    }
+    .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-state p { font-size: 15px; }
+
+    /* ── 高亮關鍵字 ── */
+    mark {
+      background: #ffe066;
+      color: inherit;
+      border-radius: 2px;
+      padding: 0 1px;
+    }
+
+    @media (max-width: 600px) {
+      header, .search-panel, .result-area { padding-left: 16px; padding-right: 16px; }
+      .stats-bar { padding-left: 16px; padding-right: 16px; }
+      .card { grid-template-columns: auto 1fr; }
+      .card-right { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="logo">📋</span>
+  <h1>客訴歷史查詢系統</h1>
+  <span class="sub">晉億實業股份有限公司</span>
+</header>
+
+<!-- 搜尋區 -->
+<div class="search-panel">
+  <div class="search-row">
+    <div class="search-group keyword">
+      <label>關鍵字搜尋（客戶 / 案號 / 問題描述）</label>
+      <input type="text" id="keyword" placeholder="例如：天合、外觀不良、尺寸超差…" />
+    </div>
+    <div class="search-group">
+      <label>客戶名稱</label>
+      <select id="filterClient">
+        <option value="">全部客戶</option>
+        <option>天合</option>
+        <option>明駿</option>
+        <option>玉鼎</option>
+        <option>晉億</option>
+      </select>
+    </div>
+    <div class="search-group">
+      <label>問題分類</label>
+      <select id="filterCategory">
+        <option value="">全部分類</option>
+        <option>品質異常</option>
+        <option>交期延誤</option>
+        <option>外觀不良</option>
+        <option>尺寸超差</option>
+        <option>服務問題</option>
+        <option>其他</option>
+      </select>
+    </div>
+    <div class="search-group">
+      <label>處理狀態</label>
+      <select id="filterStatus">
+        <option value="">全部狀態</option>
+        <option>處理中</option>
+        <option>已結案</option>
+        <option>待確認</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" onclick="doSearch()">🔍 搜尋</button>
+    <button class="btn btn-reset" onclick="resetSearch()">重設</button>
+  </div>
+</div>
+
+<!-- 統計列 -->
+<div class="stats-bar" id="statsBar">
+  <div class="stat-item">
+    <span class="stat-num" id="statTotal">13</span>
+    <span class="stat-label">總案件數</span>
+  </div>
+  <div class="stat-item highlight">
+    <span class="stat-num" id="statOpen">3</span>
+    <span class="stat-label">處理中</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" id="statClosed">9</span>
+    <span class="stat-label">已結案</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" id="statPending">1</span>
+    <span class="stat-label">待確認</span>
+  </div>
+</div>
+
+<!-- 搜尋結果 -->
+<div class="result-area">
+  <div class="result-header">
+    <div class="result-count">共找到 <strong id="resultCount">13</strong> 筆記錄</div>
+  </div>
+  <div class="card-list" id="cardList"></div>
+</div>
+
+<script>
+/* ====================================================
+   資料集（依 PDF 檔名推導真實案號，內容為示範資料）
+   ==================================================== */
+const complaints = [
+  {
+    id: "TH-114042401",
+    client: "天合",
+    date: "114-04-24",
+    category: "品質異常",
+    badgeClass: "badge-quality",
+    tagClass: "tag-quality",
+    status: "已結案",
+    statusClass: "tag-closed",
+    title: "來料混入異材質，導致衝壓後毛邊過大",
+    responsible: "品保部",
+    source: "客戶來電反映",
+    rootCause: "原料廠混料，進料檢驗未攔截",
+    action: "退料重工，強化進料全檢作業",
+    closeDate: "114-05-10",
+    reporter: "黃○○",
+    detail: "天合客訴 114-04-24：來料批次 LOT#A2401 混入 SUS304 與 SUS430 異材質，導致下游衝壓製程出現毛邊超標 0.15mm（標準 ≤0.08mm）。已全數退貨並啟動供應商稽核。"
+  },
+  {
+    id: "TH-114071201",
+    client: "天合",
+    date: "114-07-12",
+    category: "尺寸超差",
+    badgeClass: "badge-dimension",
+    tagClass: "tag-dimension",
+    status: "已結案",
+    statusClass: "tag-closed",
+    title: "支架孔位偏移 0.3mm，組裝無法配合",
+    responsible: "製造部",
+    source: "客戶 8D 回覆",
+    rootCause: "治具磨損超出換修週期，孔距累積偏差",
+    action: "治具汰換，增加每班首件確認頻率",
+    closeDate: "114-07-28",
+    reporter: "林○○",
+    detail: "天合針對 P/N TH-5521 支架反映孔位 X 軸偏移 +0.30mm，超出圖面 ±0.15mm 公差。查明為衝床治具磨耗導致，已更換治具並補出合格品 500pcs。"
+  },
+  {
+    id: "TH-115032701",
+    client: "天合",
+    date: "115-03-27",
+    category: "外觀不良",
+    badgeClass: "badge-appearance",
+    tagClass: "tag-appearance",
+    status: "已結案",
+    statusClass: "tag-closed",
+    title: "電鍍表面出現霧點，客戶驗收不通過",
+    responsible: "品保部",
+    source: "客戶退貨單",
+    rootCause: "電鍍槽液 pH 值超標，陽極電流密度不穩定",
+    action: "槽液全換，電流密度重新校正，出廠全檢",
+    closeDate: "115-04-12",
+    reporter: "陳○○",
+    detail: "天合回報 P/N TH-8832 電鍍件表面出現 2~5mm 圓形霧點，不符合 RoHS 表面品質規範。經查電鍍廠槽液 pH 偏高至 5.8（正常 4.5±0.3），已要求電鍍廠改善並全數重鍍。"
+  },
+  {
+    id: "TH-115062901",
+    client: "天合",
+    date: "115-06-29",
+    category: "交期延誤",
+    badgeClass: "badge-delivery",
+    tagClass: "tag-delivery",
+    status: "處理中",
+    statusClass: "tag-open",
+    title: "Q3 備料延誤 5 天，影響客戶生產排程",
+    responsible: "業務部 / 採購部",
+    source: "客戶 Email 通知",
+    rootCause: "原材料缺貨，替代供應商認證未完成",
+    action: "緊急採購空運，補救方案議定中",
+    closeDate: "—",
+    reporter: "吳○○",
+    detail: "天合因冷軋鋼帶缺料，導致訂單 PO-115062901 延遲交貨，已影響客戶三條生產線停線 2 天。目前正與兩家替代供應商進行快速認證，預計 115-07-10 可恢復正常供貨。"
+  },
+  {
+    id: "TH-115082601",
+    client: "天合",
+    date: "115-08-26",
+    category: "品質異常",
+    badgeClass: "badge-quality",
+    tagClass: "tag-quality",
+    status: "處理中",
+    statusClass: "tag-open",
+    title: "焊接強度不足，破壞測試低於規格值",
+    responsible: "製造部",
+    source: "客戶 PPAP 失效報告",
+    rootCause: "調查中",
+    action: "召開緊急品質會議，取樣送外部實驗室",
+    closeDate: "—",
+    reporter: "張○○",
+    detail: "天合最新來件（115-08-26）：P/N TH-9101 焊接樣品破壞測試僅達 820N，低於規格要求 1200N。目前已暫停出貨，品保部正進行全面參數追查，8D 報告預計 115-09-05 完成。"
+  },
+  {
+    id: "MJ-114040202",
+    client: "明駿",
+    date: "114-04-02",
+    category: "品質異常",
+    badgeClass: "badge-quality",
+    tagClass: "tag-quality",
+    status: "已結案",
+    statusClass: "tag-closed",
+    title: "衝壓件批量毛邊超標，外觀 A 面不合格",
+    responsible: "品保部",
+    source: "客戶退貨",
+    rootCause: "模具刃口磨耗，未依保養週期更換",
+    action: "模具維修，制定模具保養 SOP 並追蹤 3 個月",
+    closeDate: "114-05-15",
+    reporter: "李○○",
+    detail: "明駿退回批次 M2402-A 共 1,200pcs，毛邊高度 0.2~0.4mm（規格 ≤0.1mm）。查核模具刃口已磨耗 0.08mm，超出換修標準 0.05mm。已完成模具研磨，重新生產送樣確認中。"
+  },
+  {
+    id: "MJ-114072901",
+    client: "明駿",
+    date: "114-07-29",
+    category: "外觀不良",
+    badgeClass: "badge-appearance",
+    tagClass: "tag-appearance",
+    status: "已結案",
+    statusClass: "tag-closed",
+    title: "電鍍層脫落，客戶使用中發現鏽蝕",
+    responsible: "品保部",
+    source: "客戶品質異常通知",
+    rootCause: "前處理酸洗時間不足，基材殘留油脂",
+    action: "修訂前處理作業標準，增加油脂殘留檢測步驟",
+    closeDate: "114-08-20",
+    reporter: "王○○",
+    detail: "明駿 P/N MJ-3301 在客戶端使用 3 個月後出現電鍍層局部脫落及鏽蝕。鹽霧測試複驗僅達 48 小時（規格 ≥96 小時），根本原因為酸洗不足，已強化前處理管控。"
+  },
+  {
+    id: "MJ-115031001",
+    client: "明駿",
+    date: "115-03-10",
+    category: "尺寸超差",
+    badgeClass: "badge-dimension",
+    tagClass: "tag-dimension",
+    status: "已結案",
+    statusClass: "tag-closed",
+    title: "折彎角度偏差 ±2°，超出圖面公差要求",
+    responsible: "製造部",
+    source: "客戶來件檢驗",
+    rootCause: "折彎機壓力補償參數未隨材料批次調整",
+    action: "建立材料硬度與壓力補償對應表，首件確認流程調整",
+    closeDate: "115-04-02",
+    reporter: "林○○",
+    detail: "明駿 P/N MJ-5522 折彎角度實測 88°±3°（圖面要求 90°±1°），批量 800pcs 全數不合格。查明為鋼板批次硬度偏高（HRB 85 vs 標準 HRB 80），需重新設定折彎補償量。"
+  },
+  {
+    id: "MJ-115062201",
+    client: "明駿",
+    date: "115-06-22",
+    category: "服務問題",
+    badgeClass: "badge-service",
+    tagClass: "tag-service",
+    status: "待確認",
+    statusClass: "tag-pending",
+    title: "客戶反映技術文件提供不及時，影響認證進度",
+    responsible: "業務部",
+    source: "客戶定期審查會議",
+    rootCause: "內部文件簽審流程無 SLA 規範",
+    action: "制定文件回覆 SLA（3 個工作天），設立追蹤機制",
+    closeDate: "—",
+    reporter: "陳○○",
+    detail: "明駿品質主管於 115-06-22 例行會議中反映，PPAP 文件申請後平均等待 12 個工作天才收到回覆，遠超業界標準 5 天。業務部已啟動內部流程改善，等待客戶確認改善方案後結案。"
+  },
+  {
+    id: "YD-114051301",
+    client: "玉鼎",
+    date: "114-05-13",
+    category: "品質異常",
+    badgeClass: "badge-quality",
+    tagClass: "tag-quality",
+    status: "已結案",
+    statusClass: "tag-closed",
+    title: "端子壓接力不足，電氣接觸電阻超標",
+    responsible: "製造部",
+    source: "客戶來電",
+    rootCause: "壓接模具磨耗，壓接高度漂移 0.05mm",
+    action: "更換模具，調整壓接高度監控上下限",
+    closeDate: "114-06-10",
+    reporter: "黃○○",
+    detail: "玉鼎反映 P/N YD-7701 端子壓接件電氣接觸電阻超過 5mΩ（規格 ≤2mΩ），已導致客戶端線束組裝良率下降至 82%。壓接模具維修後複驗合格，已重新供貨。"
+  },
+  {
+    id: "YD-114090101",
+    client: "玉鼎",
+    date: "114-09-01",
+    category: "外觀不良",
+    badgeClass: "badge-appearance",
+    tagClass: "tag-appearance",
+    status: "已結案",
+    statusClass: "tag-closed",
+    title: "塑膠件表面縮水痕，外觀等級不符規範",
+    responsible: "品保部",
+    source: "客戶退貨",
+    rootCause: "射出成型保壓時間不足，料溫偏低",
+    action: "重新設定保壓參數，增加料溫監控警報",
+    closeDate: "114-09-25",
+    reporter: "吳○○",
+    detail: "玉鼎退回 P/N YD-8821 塑膠殼體 600pcs，外觀 A 面出現明顯縮水痕（Grade B 不可接受）。射出條件確認料溫 240°C（標準 260±5°C），保壓不足。已調整參數重新生產。"
+  },
+  {
+    id: "YD-115010801",
+    client: "玉鼎",
+    date: "115-01-08",
+    category: "品質異常",
+    badgeClass: "badge-quality",
+    tagClass: "tag-quality",
+    status: "已結案",
+    statusClass: "tag-closed",
+    title: "螺絲扭力值異常，鎖附後出現滑牙現象",
+    responsible: "品保部",
+    source: "客戶 8D 要求",
+    rootCause: "螺絲批次硬度不足，供應商製程異常",
+    action: "更換供應商並加嚴進料硬度全檢",
+    closeDate: "115-02-05",
+    reporter: "王○○",
+    detail: "玉鼎 P/N YD-9901 鎖附組裝後有約 3% 滑牙率，遠高於允收 0.1%。螺絲硬度量測均值 HRC 25（規格 HRC 32~36），確認為供應商熱處理異常。已更換供應商並完成重新認證。"
+  },
+  {
+    id: "JY-EARS-001",
+    client: "晉億",
+    date: "115-04-15",
+    category: "品質異常",
+    badgeClass: "badge-quality",
+    tagClass: "tag-quality",
+    status: "已結案",
+    statusClass: "tag-closed",
+    title: "內部稽核發現客訴 EARS 流程執行落差",
+    responsible: "品保部",
+    source: "內部稽核",
+    rootCause: "EARS 表單填寫不完整，根因分析深度不足（未達 5-Why）",
+    action: "舉辦 8D/5-Why 教育訓練，修訂 EARS 表單填寫指引",
+    closeDate: "115-05-01",
+    reporter: "李○○",
+    detail: "內部年度稽核發現 Q1 共 6 件客訴 EARS 報告中有 3 件根因分析停留於現象層，未追溯至系統根因。已安排全品保人員進行 8D 方法論訓練，並建立 EARS 審查機制，確保品質。"
+  }
+];
+
+/* ─── 工具：高亮關鍵字 ─── */
+function highlight(text, kw) {
+  if (!kw) return text;
+  const esc = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(esc, 'gi'), m => `<mark>${m}</mark>`);
+}
+
+/* ─── 渲染卡片 ─── */
+function renderCards(data, kw) {
+  const list = document.getElementById('cardList');
+  if (data.length === 0) {
+    list.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>查無符合條件的客訴記錄</p></div>`;
+    return;
+  }
+  list.innerHTML = data.map(c => {
+    const hl = t => highlight(t, kw);
+    return `
+    <div class="card" id="card-${c.id}" onclick="toggleCard('${c.id}')">
+      <div class="card-badge ${c.badgeClass}"></div>
+      <div class="card-main">
+        <div class="card-top">
+          <span class="card-case-no">${hl(c.id)}</span>
+          <span class="card-client">${hl(c.client)}</span>
+          <span class="tag ${c.tagClass}">${c.category}</span>
+          <span class="tag ${c.statusClass}">${c.status}</span>
+        </div>
+        <div class="card-title">${hl(c.title)}</div>
+        <div class="card-meta">
+          <span>📅 客訴日期：${c.date}</span>
+          <span>👤 負責部門：${c.responsible}</span>
+          <span>📌 來源：${c.source}</span>
+        </div>
+      </div>
+      <div class="card-right">
+        <div class="card-date">${c.date}</div>
+        <div>▼</div>
+      </div>
+      <div class="card-detail">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="detail-key">根本原因</span><span class="detail-val">${hl(c.rootCause)}</span></div>
+          <div class="detail-item"><span class="detail-key">矯正措施</span><span class="detail-val">${hl(c.action)}</span></div>
+          <div class="detail-item"><span class="detail-key">結案日期</span><span class="detail-val">${c.closeDate}</span></div>
+          <div class="detail-item"><span class="detail-key">建立人</span><span class="detail-val">${c.reporter}</span></div>
+        </div>
+        <div class="detail-full"><p>${hl(c.detail)}</p></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ─── 展開 / 收合卡片 ─── */
+function toggleCard(id) {
+  const card = document.getElementById('card-' + id);
+  card.classList.toggle('expanded');
+}
+
+/* ─── 搜尋邏輯 ─── */
+function doSearch() {
+  const kw       = document.getElementById('keyword').value.trim().toLowerCase();
+  const client   = document.getElementById('filterClient').value;
+  const category = document.getElementById('filterCategory').value;
+  const status   = document.getElementById('filterStatus').value;
+
+  const result = complaints.filter(c => {
+    const matchKw = !kw || [c.id, c.client, c.title, c.rootCause, c.action, c.detail, c.source]
+      .join(' ').toLowerCase().includes(kw);
+    const matchClient   = !client   || c.client   === client;
+    const matchCategory = !category || c.category === category;
+    const matchStatus   = !status   || c.status   === status;
+    return matchKw && matchClient && matchCategory && matchStatus;
+  });
+
+  document.getElementById('resultCount').textContent = result.length;
+  renderCards(result, kw);
+  updateStats(result);
+}
+
+function updateStats(data) {
+  document.getElementById('statTotal').textContent   = data.length;
+  document.getElementById('statOpen').textContent    = data.filter(c => c.status === '處理中').length;
+  document.getElementById('statClosed').textContent  = data.filter(c => c.status === '已結案').length;
+  document.getElementById('statPending').textContent = data.filter(c => c.status === '待確認').length;
+}
+
+function resetSearch() {
+  document.getElementById('keyword').value        = '';
+  document.getElementById('filterClient').value   = '';
+  document.getElementById('filterCategory').value = '';
+  document.getElementById('filterStatus').value   = '';
+  doSearch();
+}
+
+/* ─── Enter 觸發搜尋 ─── */
+document.getElementById('keyword').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doSearch();
+});
+
+/* ─── 初始載入 ─── */
+doSearch();
+</script>
+</body>
+</html>
