@@ -9,7 +9,7 @@
 
     body {
       font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
-      background: #f4f6f9;
+      background: #f0f3f8;
       color: #333;
       min-height: 100vh;
     }
@@ -18,29 +18,27 @@
     header {
       background: #1a3a5c;
       color: #fff;
-      padding: 18px 32px;
+      padding: 16px 32px;
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
-    header .logo { font-size: 24px; }
-    header h1 { font-size: 18px; font-weight: 700; letter-spacing: 1px; }
-    header .sub { font-size: 12px; opacity: .65; margin-left: auto; }
+    header .logo { font-size: 22px; }
+    header h1   { font-size: 18px; font-weight: 700; letter-spacing: 1px; }
+    header .sub { font-size: 12px; opacity: .6; margin-left: auto; }
 
     /* ── 搜尋列 ── */
     .search-panel {
       background: #fff;
-      padding: 20px 32px;
-      border-bottom: 1px solid #e0e4ea;
-    }
-    .search-row {
+      padding: 18px 32px;
+      border-bottom: 1px solid #dde2ea;
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
       align-items: flex-end;
     }
-    .sg { display: flex; flex-direction: column; gap: 5px; }
-    .sg label { font-size: 11px; color: #666; font-weight: 700; letter-spacing: .5px; }
+    .sg { display: flex; flex-direction: column; gap: 4px; }
+    .sg label { font-size: 11px; font-weight: 700; color: #666; }
     .sg input, .sg select {
       padding: 8px 11px;
       border: 1px solid #cdd2da;
@@ -52,21 +50,17 @@
       min-width: 150px;
     }
     .sg input:focus, .sg select:focus { border-color: #3a7bd5; background: #fff; }
-    .sg.wide input { min-width: 240px; }
+    .sg.wide input { min-width: 260px; }
 
     .btn {
       padding: 8px 18px;
-      border: none;
-      border-radius: 6px;
-      font-size: 13px;
-      font-family: inherit;
-      cursor: pointer;
-      font-weight: 700;
+      border: none; border-radius: 6px;
+      font-size: 13px; font-family: inherit;
+      cursor: pointer; font-weight: 700;
       white-space: nowrap;
-      transition: opacity .15s, transform .1s;
+      transition: opacity .15s;
     }
-    .btn:active { transform: scale(.97); }
-    .btn:hover { opacity: .88; }
+    .btn:hover { opacity: .85; }
     .btn-blue   { background: #3a7bd5; color: #fff; }
     .btn-grey   { background: #eef1f6; color: #555; }
     .btn-green  { background: #27ae60; color: #fff; }
@@ -76,46 +70,123 @@
     /* ── 統計列 ── */
     .stats-bar {
       background: #fff;
-      padding: 12px 32px;
-      border-bottom: 1px solid #e0e4ea;
+      padding: 10px 32px;
+      border-bottom: 1px solid #dde2ea;
       display: flex;
       gap: 28px;
       flex-wrap: wrap;
     }
     .stat { display: flex; flex-direction: column; align-items: center; }
     .stat-n { font-size: 20px; font-weight: 700; color: #1a3a5c; }
-    .stat-l { font-size: 11px; color: #999; margin-top: 1px; }
+    .stat-l { font-size: 11px; color: #999; }
     .stat.red .stat-n { color: #c0392b; }
 
     /* ── 結果區 ── */
     .result-area { padding: 20px 32px; }
     .result-hdr {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-      font-size: 13px;
-      color: #666;
+      display: flex; justify-content: space-between;
+      align-items: center; margin-bottom: 14px;
+      font-size: 13px; color: #666;
     }
     .result-hdr strong { color: #1a3a5c; font-size: 15px; }
+    .tpl-btn {
+      font-size: 12px; color: #3a7bd5; cursor: pointer;
+      text-decoration: underline; background: none;
+      border: none; font-family: inherit;
+    }
 
     /* ── 卡片 ── */
     .card-list { display: flex; flex-direction: column; gap: 10px; }
+
     .card {
       background: #fff;
-      border: 1px solid #e0e4ea;
+      border: 1px solid #dde2ea;
       border-radius: 8px;
-      padding: 16px 18px;
-      display: grid;
-      grid-template-columns: 5px 1fr auto;
-      gap: 0 16px;
+      overflow: hidden;
       cursor: pointer;
       transition: box-shadow .15s, border-color .15s;
     }
-    .card:hover { box-shadow: 0 3px 12px rgba(58,123,213,.13); border-color: #c5d8f5; }
+    .card:hover { box-shadow: 0 3px 14px rgba(58,123,213,.13); border-color: #c5d8f5; }
     .card.open  { border-color: #3a7bd5; }
 
-    .cbar { border-radius: 4px; align-self: stretch; }
+    /* 卡片頭部（永遠可見） */
+    .card-head {
+      display: grid;
+      grid-template-columns: 5px 1fr auto;
+      gap: 0 16px;
+      padding: 14px 18px;
+      align-items: start;
+    }
+    .cbar { border-radius: 3px; align-self: stretch; min-height: 50px; }
+
+    /* 摘要欄位 */
+    .cinfo { display: flex; flex-direction: column; gap: 5px; }
+    .ctop  { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    .cno   { font-size: 12px; font-weight: 700; color: #1a3a5c; font-family: monospace; letter-spacing: .5px; }
+    .ccl   { font-size: 14px; font-weight: 700; color: #1a3a5c; }
+
+    .tag   { font-size: 11px; padding: 2px 9px; border-radius: 12px; font-weight: 700; }
+    .st-open    { background: #fff3cd; color: #856404; }
+    .st-closed  { background: #d1ecf1; color: #0c5460; }
+    .st-pending { background: #f8d7da; color: #721c24; }
+
+    /* 抱怨內容摘要（單行截斷） */
+    .cpreview {
+      font-size: 13px; color: #555;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      max-width: 700px;
+    }
+
+    .cright {
+      text-align: right; white-space: nowrap;
+      font-size: 11px; color: #aaa;
+    }
+    .cdate { font-size: 13px; font-weight: 600; color: #777; }
+
+    /* ── 展開詳情 ── */
+    .card-body {
+      display: none;
+      border-top: 1px solid #e8ecf2;
+      background: #f8f9fc;
+    }
+    .card.open .card-body { display: block; }
+
+    .section {
+      padding: 14px 20px;
+      border-bottom: 1px solid #e8ecf2;
+    }
+    .section:last-child { border-bottom: none; }
+    .section-title {
+      font-size: 11px; font-weight: 700; color: #888;
+      letter-spacing: 1px; text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .section-content {
+      font-size: 13px; color: #333; line-height: 1.8;
+      white-space: pre-wrap;
+    }
+
+    /* 對策三欄 */
+    .cm-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    .cm-card {
+      background: #fff;
+      border: 1px solid #ffe58f;
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+    .cm-label {
+      font-size: 11px; font-weight: 700;
+      color: #8a6d00; margin-bottom: 5px;
+    }
+    .cm-val { font-size: 13px; color: #333; line-height: 1.6; }
+
+    /* 左側色條 */
     .bq { background: #e05050; }
     .bd { background: #e08020; }
     .ba { background: #9b59b6; }
@@ -123,75 +194,13 @@
     .bs { background: #27ae60; }
     .bo { background: #95a5a6; }
 
-    .ctop { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .cno  { font-size: 11px; color: #aaa; font-family: monospace; }
-    .ccl  { font-weight: 700; font-size: 14px; color: #1a3a5c; }
-    .tag  { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700; }
-    .tq { background: #fdecea; color: #c0392b; }
-    .td { background: #fef0e0; color: #b7610a; }
-    .ta { background: #f5eef8; color: #7d3c98; }
-    .tz { background: #eaf1fb; color: #1a5db0; }
-    .ts { background: #eafaf1; color: #1e8449; }
-    .to { background: #f2f3f4; color: #5d6d7e; }
-    .st-open    { background: #fff3cd; color: #856404; }
-    .st-closed  { background: #d1ecf1; color: #0c5460; }
-    .st-pending { background: #f8d7da; color: #721c24; }
-
-    .ctitle { margin-top: 5px; font-size: 13px; color: #333; line-height: 1.5; }
-    .cmeta  { margin-top: 5px; font-size: 11px; color: #bbb; display: flex; gap: 14px; flex-wrap: wrap; }
-    .cright { font-size: 11px; color: #bbb; text-align: right; white-space: nowrap; }
-    .cdate  { font-size: 13px; color: #777; font-weight: 600; }
-
-    /* 展開詳情 */
-    .cdetail {
-      display: none;
-      grid-column: 1 / -1;
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px dashed #e0e4ea;
-      font-size: 12.5px;
-      line-height: 1.8;
-    }
-    .card.open .cdetail { display: block; }
-
-    .dgrid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 8px 20px;
-      margin-bottom: 10px;
-    }
-    .di { display: flex; gap: 8px; }
-    .dk { color: #999; min-width: 80px; flex-shrink: 0; font-weight: 700; }
-    .dv { color: #333; }
-
-    /* 對策區塊 */
-    .cmbox {
-      background: #fffbea;
-      border: 1px solid #ffe58f;
-      border-radius: 6px;
-      padding: 12px 14px;
-      margin-bottom: 10px;
-    }
-    .cmbox h4 { font-size: 12px; color: #8a6d00; margin-bottom: 8px; }
-    .cmi { display: flex; gap: 8px; margin-bottom: 5px; font-size: 12.5px; }
-    .cml { min-width: 70px; color: #8a6d00; font-weight: 700; flex-shrink: 0; }
-    .cmv { color: #333; }
-
-    .dfull {
-      background: #f8f9fc;
-      border-radius: 6px;
-      padding: 10px 12px;
-      font-size: 12.5px;
-      color: #444;
-    }
-
     /* ── 空狀態 ── */
     .empty {
       text-align: center;
-      padding: 56px 20px;
+      padding: 60px 20px;
       color: #bbb;
     }
-    .empty .eicon { font-size: 52px; margin-bottom: 14px; }
+    .empty .eicon { font-size: 54px; margin-bottom: 14px; }
     .empty p { font-size: 15px; margin-bottom: 20px; }
     .excel-guide {
       display: inline-block;
@@ -202,67 +211,46 @@
       text-align: left;
       font-size: 13px;
       color: #1a5db0;
-      line-height: 2;
-      max-width: 560px;
+      line-height: 2.2;
+      max-width: 520px;
     }
     .excel-guide b { color: #1a3a5c; }
 
     /* ── Modal ── */
     .overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.46);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
+      display: none; position: fixed;
+      inset: 0; background: rgba(0,0,0,.46);
+      z-index: 200; align-items: center; justify-content: center;
     }
     .overlay.on { display: flex; }
     .modal {
-      background: #fff;
-      border-radius: 10px;
-      padding: 26px 30px;
-      width: 540px;
-      max-width: 96vw;
-      max-height: 92vh;
+      background: #fff; border-radius: 10px;
+      padding: 26px 30px; width: 560px;
+      max-width: 96vw; max-height: 92vh;
       overflow-y: auto;
       box-shadow: 0 10px 40px rgba(0,0,0,.22);
     }
     .modal h2 { font-size: 15px; color: #1a3a5c; margin-bottom: 18px; }
     .fg { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
     .fg label { font-size: 11px; font-weight: 700; color: #666; }
+    .req { color: #e05050; }
     .fg input, .fg select, .fg textarea {
-      padding: 8px 10px;
-      border: 1px solid #cdd2da;
-      border-radius: 6px;
-      font-size: 13px;
-      font-family: inherit;
-      background: #fafbfc;
-      outline: none;
+      padding: 8px 10px; border: 1px solid #cdd2da;
+      border-radius: 6px; font-size: 13px;
+      font-family: inherit; background: #fafbfc; outline: none;
     }
-    .fg textarea { resize: vertical; min-height: 64px; }
+    .fg textarea { resize: vertical; min-height: 72px; }
     .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .mfoot { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; }
-
-    /* ── 下載範本 ── */
-    .tpl-link {
-      font-size: 12px;
-      color: #3a7bd5;
-      cursor: pointer;
-      text-decoration: underline;
-      background: none;
-      border: none;
-      font-family: inherit;
-      padding: 0;
-    }
 
     mark { background: #ffe066; color: inherit; border-radius: 2px; padding: 0 1px; }
 
     @media (max-width: 640px) {
       header, .search-panel, .result-area, .stats-bar { padding-left: 14px; padding-right: 14px; }
-      .card { grid-template-columns: 5px 1fr; }
+      .card-head { grid-template-columns: 5px 1fr; }
       .cright { display: none; }
       .frow { grid-template-columns: 1fr; }
+      .cpreview { max-width: 100%; }
     }
   </style>
 </head>
@@ -277,62 +265,46 @@
 
 <!-- 搜尋列 -->
 <div class="search-panel">
-  <div class="search-row">
-    <div class="sg wide">
-      <label>🔍 關鍵字（客戶 / 案號 / 問題）</label>
-      <input type="text" id="kw" placeholder="輸入關鍵字後按 Enter 或點搜尋…" />
-    </div>
-    <div class="sg">
-      <label>客戶</label>
-      <select id="fClient">
-        <option value="">全部</option>
-      </select>
-    </div>
-    <div class="sg">
-      <label>分類</label>
-      <select id="fCat">
-        <option value="">全部</option>
-        <option>品質異常</option>
-        <option>交期延誤</option>
-        <option>外觀不良</option>
-        <option>尺寸超差</option>
-        <option>服務問題</option>
-        <option>其他</option>
-      </select>
-    </div>
-    <div class="sg">
-      <label>狀態</label>
-      <select id="fSt">
-        <option value="">全部</option>
-        <option>處理中</option>
-        <option>已結案</option>
-        <option>待確認</option>
-      </select>
-    </div>
-    <button class="btn btn-blue"   onclick="search()">搜尋</button>
-    <button class="btn btn-grey"   onclick="reset()">重設</button>
-    <button class="btn btn-green"  onclick="openAdd()">＋ 新增</button>
-    <label  class="btn btn-purple" title="上傳 Excel（.xlsx / .csv）匯入資料">
-      📂 匯入 Excel
-      <input type="file" id="xlFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="importFile(this)" />
-    </label>
-    <button class="btn btn-red"    onclick="clearAll()">🗑 清空</button>
+  <div class="sg wide">
+    <label>🔍 關鍵字（編號 / 客戶 / 抱怨內容）</label>
+    <input type="text" id="kw" placeholder="輸入關鍵字後按 Enter 或點搜尋…" />
   </div>
+  <div class="sg">
+    <label>客戶</label>
+    <select id="fClient"><option value="">全部</option></select>
+  </div>
+  <div class="sg">
+    <label>處理狀態</label>
+    <select id="fSt">
+      <option value="">全部</option>
+      <option>處理中</option>
+      <option>已結案</option>
+      <option>待確認</option>
+    </select>
+  </div>
+  <button class="btn btn-blue"   onclick="search()">搜尋</button>
+  <button class="btn btn-grey"   onclick="resetSearch()">重設</button>
+  <button class="btn btn-green"  onclick="openAdd()">＋ 新增</button>
+  <label  class="btn btn-purple">
+    📂 匯入 Excel
+    <input type="file" id="xlFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="importFile(this)" />
+  </label>
+  <button class="btn btn-red"    onclick="clearAll()">🗑 清空</button>
 </div>
 
 <!-- 統計列 -->
 <div class="stats-bar">
-  <div class="stat"><span class="stat-n" id="sTotal">0</span><span class="stat-l">總案件</span></div>
-  <div class="stat red"><span class="stat-n" id="sOpen">0</span><span class="stat-l">處理中</span></div>
-  <div class="stat"><span class="stat-n" id="sClosed">0</span><span class="stat-l">已結案</span></div>
-  <div class="stat"><span class="stat-n" id="sPending">0</span><span class="stat-l">待確認</span></div>
+  <div class="stat">        <span class="stat-n" id="sTotal">0</span>  <span class="stat-l">總案件</span></div>
+  <div class="stat red">    <span class="stat-n" id="sOpen">0</span>   <span class="stat-l">處理中</span></div>
+  <div class="stat">        <span class="stat-n" id="sClosed">0</span> <span class="stat-l">已結案</span></div>
+  <div class="stat">        <span class="stat-n" id="sPending">0</span><span class="stat-l">待確認</span></div>
 </div>
 
 <!-- 結果 -->
 <div class="result-area">
   <div class="result-hdr">
     <span>共 <strong id="rCount">0</strong> 筆</span>
-    <button class="tpl-link" onclick="downloadTemplate()">⬇ 下載 Excel 範本</button>
+    <button class="tpl-btn" onclick="downloadTemplate()">⬇ 下載 Excel 範本</button>
   </div>
   <div class="card-list" id="cardList"></div>
 </div>
@@ -340,296 +312,339 @@
 <!-- 新增 Modal -->
 <div class="overlay" id="addModal" onclick="closeAdd(event)">
   <div class="modal">
-    <h2>📝 新增客訴記錄</h2>
+    <h2>📝 新增客訴處理單</h2>
     <div class="frow">
-      <div class="fg"><label>案號 *</label><input id="a_id"    placeholder="如 TH-115090101" /></div>
-      <div class="fg"><label>客戶 *</label><input id="a_cl"    placeholder="如 天合" /></div>
-    </div>
-    <div class="frow">
-      <div class="fg"><label>日期 *</label><input id="a_dt"    placeholder="115-09-01" /></div>
-      <div class="fg"><label>分類 *</label>
-        <select id="a_cat">
-          <option value="">請選擇</option>
-          <option>品質異常</option><option>交期延誤</option>
-          <option>外觀不良</option><option>尺寸超差</option>
-          <option>服務問題</option><option>其他</option>
-        </select>
+      <div class="fg">
+        <label>客戶抱怨處理單編號 <span class="req">*</span></label>
+        <input id="a_id" placeholder="如 TH-115090101" />
+      </div>
+      <div class="fg">
+        <label>客戶 <span class="req">*</span></label>
+        <input id="a_cl" placeholder="如 天合" />
       </div>
     </div>
     <div class="frow">
-      <div class="fg"><label>狀態 *</label>
+      <div class="fg">
+        <label>日期 <span class="req">*</span></label>
+        <input id="a_dt" placeholder="115-09-01" />
+      </div>
+      <div class="fg">
+        <label>處理狀態 <span class="req">*</span></label>
         <select id="a_st">
           <option value="">請選擇</option>
-          <option>處理中</option><option>已結案</option><option>待確認</option>
+          <option>處理中</option>
+          <option>已結案</option>
+          <option>待確認</option>
         </select>
       </div>
-      <div class="fg"><label>負責部門</label><input id="a_dept"  placeholder="品保部" /></div>
     </div>
-    <div class="fg"><label>問題標題 *</label><input id="a_ttl"   placeholder="簡述客訴問題" /></div>
-    <div class="fg"><label>客訴來源</label>  <input id="a_src"   placeholder="客戶退貨 / Email…" /></div>
-    <div class="fg"><label>根本原因</label>  <textarea id="a_rc" placeholder="5-Why 分析結果"></textarea></div>
-    <div class="fg"><label>短期矯正</label>  <textarea id="a_as" placeholder="立即採取的矯正行動"></textarea></div>
-    <div class="fg"><label>長期預防</label>  <textarea id="a_al" placeholder="防止再發的系統性對策"></textarea></div>
-    <div class="fg"><label>效果確認</label>  <textarea id="a_vf" placeholder="對策驗證結果"></textarea></div>
+    <div class="fg">
+      <label>抱怨內容 <span class="req">*</span></label>
+      <textarea id="a_comp" placeholder="詳細描述客戶抱怨的問題、現象、數量、影響…"></textarea>
+    </div>
+    <div class="fg">
+      <label>短期對策（立即矯正）</label>
+      <textarea id="a_s1" placeholder="針對本次問題立即採取的處理行動"></textarea>
+    </div>
+    <div class="fg">
+      <label>長期對策（防止再發）</label>
+      <textarea id="a_s2" placeholder="防止問題再次發生的系統性改善措施"></textarea>
+    </div>
+    <div class="fg">
+      <label>效果確認</label>
+      <textarea id="a_s3" placeholder="對策實施後的驗證結果"></textarea>
+    </div>
     <div class="frow">
-      <div class="fg"><label>結案日期</label><input id="a_cd"   placeholder="尚未結案填 —" /></div>
-      <div class="fg"><label>建立人</label>  <input id="a_rp"   placeholder="姓名" /></div>
+      <div class="fg">
+        <label>結案日期</label>
+        <input id="a_cd" placeholder="尚未結案填 —" />
+      </div>
+      <div class="fg">
+        <label>負責人</label>
+        <input id="a_rp" placeholder="姓名" />
+      </div>
     </div>
-    <div class="fg"><label>詳細說明</label>  <textarea id="a_det" placeholder="完整描述客訴情況…"></textarea></div>
     <div class="mfoot">
-      <button class="btn btn-grey"  onclick="closeAdd()">取消</button>
-      <button class="btn btn-blue"  onclick="saveAdd()">✔ 儲存</button>
+      <button class="btn btn-grey" onclick="closeAdd()">取消</button>
+      <button class="btn btn-blue" onclick="saveAdd()">✔ 儲存</button>
     </div>
   </div>
 </div>
 
-<!-- SheetJS CDN（解析 .xlsx） -->
+<!-- SheetJS（解析 Excel） -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
 <script>
 /* ================================================================
-   資料與對應表
+   資料
 ================================================================ */
 let data = [];
 
-const CAT_MAP = {
-  "品質異常":{ bar:"bq", tag:"tq" },
-  "交期延誤":{ bar:"bd", tag:"td" },
-  "外觀不良":{ bar:"ba", tag:"ta" },
-  "尺寸超差":{ bar:"bz", tag:"tz" },
-  "服務問題":{ bar:"bs", tag:"ts" },
-  "其他":    { bar:"bo", tag:"to" }
-};
 const ST_MAP = {
-  "處理中":"st-open",
-  "已結案":"st-closed",
-  "待確認":"st-pending"
+  "處理中": "st-open",
+  "已結案": "st-closed",
+  "待確認": "st-pending"
 };
 
 /* ── 高亮 ── */
 function hl(txt, kw) {
-  if (!kw || !txt) return txt || "";
-  const e = kw.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-  return String(txt).replace(new RegExp(e,"gi"), m => `<mark>${m}</mark>`);
+  if (!kw || !txt) return txt || "—";
+  const e = kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return String(txt).replace(new RegExp(e, "gi"), m => `<mark>${m}</mark>`);
 }
 
-/* ── 渲染 ── */
+/* ── 渲染卡片 ── */
 function render(list, kw) {
   const el = document.getElementById("cardList");
+
   if (!list.length) {
     el.innerHTML = `
       <div class="empty">
         <div class="eicon">📭</div>
-        <p>目前尚無資料，請點「📂 匯入 Excel」或「＋ 新增」輸入客訴記錄</p>
+        <p>尚無資料，請點「📂 匯入 Excel」或「＋ 新增」輸入客訴記錄</p>
         <div class="excel-guide">
-          <b>Excel 欄位順序（第一列為標題，之後每列一筆）：</b><br>
-          A 案號 &nbsp;｜&nbsp; B 客戶 &nbsp;｜&nbsp; C 日期 &nbsp;｜&nbsp; D 分類<br>
-          E 狀態 &nbsp;｜&nbsp; F 負責部門 &nbsp;｜&nbsp; G 來源<br>
-          H 問題標題 &nbsp;｜&nbsp; I 根本原因<br>
-          J 短期矯正 &nbsp;｜&nbsp; K 長期預防 &nbsp;｜&nbsp; L 效果確認<br>
-          M 結案日期 &nbsp;｜&nbsp; N 建立人 &nbsp;｜&nbsp; O 詳細說明
+          <b>Excel 欄位順序（第 1 列為標題，之後每列一筆）：</b><br>
+          A｜客戶抱怨處理單編號<br>
+          B｜客戶<br>
+          C｜日期（如 114-04-24）<br>
+          D｜處理狀態（處理中 / 已結案 / 待確認）<br>
+          E｜抱怨內容<br>
+          F｜短期對策<br>
+          G｜長期對策<br>
+          H｜效果確認<br>
+          I｜結案日期<br>
+          J｜負責人
         </div>
       </div>`;
     return;
   }
+
   el.innerHTML = list.map(c => {
-    const h = t => hl(t, kw);
-    const cm = CAT_MAP[c.category] || CAT_MAP["其他"];
-    const sm = ST_MAP[c.status]    || "st-open";
+    const h   = t => hl(t, kw);
+    const sm  = ST_MAP[c.status] || "st-open";
+    // 決定左側色條（依狀態）
+    const bar = c.status === "已結案" ? "bs"
+              : c.status === "處理中"  ? "bq"
+              : "bd";
+
     return `
-    <div class="card" id="c-${c.id}" onclick="tog('${c.id}')">
-      <div class="cbar ${cm.bar}"></div>
-      <div>
-        <div class="ctop">
-          <span class="cno">${h(c.id)}</span>
-          <span class="ccl">${h(c.client)}</span>
-          <span class="tag ${cm.tag}">${c.category}</span>
-          <span class="tag ${sm}">${c.status}</span>
-        </div>
-        <div class="ctitle">${h(c.title)}</div>
-        <div class="cmeta">
-          <span>📅 ${c.date}</span>
-          <span>👤 ${c.responsible||"—"}</span>
-          <span>📌 ${c.source||"—"}</span>
-        </div>
-        <div class="cdetail">
-          <div class="dgrid">
-            <div class="di"><span class="dk">根本原因</span><span class="dv">${h(c.rootCause||"—")}</span></div>
-            <div class="di"><span class="dk">結案日期</span><span class="dv">${c.closeDate||"—"}</span></div>
-            <div class="di"><span class="dk">建立人</span><span class="dv">${c.reporter||"—"}</span></div>
+    <div class="card" id="c-${CSS.escape(c.id)}" onclick="tog('${c.id.replace(/'/g,"\\'")}')">
+      <div class="card-head">
+        <div class="cbar ${bar}"></div>
+        <div class="cinfo">
+          <div class="ctop">
+            <span class="cno">${h(c.id)}</span>
+            <span class="ccl">${h(c.client)}</span>
+            <span class="tag ${sm}">${c.status}</span>
+            <span style="font-size:11px;color:#aaa;">📅 ${c.date}</span>
           </div>
-          <div class="cmbox">
-            <h4>🛠 對策提出</h4>
-            <div class="cmi"><span class="cml">短期矯正</span><span class="cmv">${h(c.actionShort||"—")}</span></div>
-            <div class="cmi"><span class="cml">長期預防</span><span class="cmv">${h(c.actionLong||"—")}</span></div>
-            <div class="cmi"><span class="cml">效果確認</span><span class="cmv">${h(c.verify||"—")}</span></div>
-          </div>
-          <div class="dfull">${h(c.detail||"—")}</div>
+          <div class="cpreview">${h(c.complaint)}</div>
+        </div>
+        <div class="cright">
+          <div class="cdate">${c.date}</div>
+          <div style="margin-top:4px">▼</div>
         </div>
       </div>
-      <div class="cright">
-        <div class="cdate">${c.date}</div>
-        <div style="margin-top:4px;font-size:10px;">▼ 展開</div>
+      <div class="card-body">
+
+        <!-- 抱怨內容 -->
+        <div class="section">
+          <div class="section-title">🗣 抱怨內容</div>
+          <div class="section-content">${h(c.complaint)}</div>
+        </div>
+
+        <!-- 對策提出 -->
+        <div class="section">
+          <div class="section-title">🛠 對策提出</div>
+          <div class="cm-grid">
+            <div class="cm-card">
+              <div class="cm-label">短期對策（立即矯正）</div>
+              <div class="cm-val">${h(c.actionShort)}</div>
+            </div>
+            <div class="cm-card">
+              <div class="cm-label">長期對策（防止再發）</div>
+              <div class="cm-val">${h(c.actionLong)}</div>
+            </div>
+            <div class="cm-card">
+              <div class="cm-label">效果確認</div>
+              <div class="cm-val">${h(c.verify)}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 其他資訊 -->
+        <div class="section">
+          <div class="section-title">ℹ 其他資訊</div>
+          <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:13px;color:#555;">
+            <span><b style="color:#888;">結案日期：</b>${c.closeDate||"—"}</span>
+            <span><b style="color:#888;">負責人：</b>${c.reporter||"—"}</span>
+          </div>
+        </div>
+
       </div>
     </div>`;
   }).join("");
 }
 
+/* ── 展開 / 收合 ── */
 function tog(id) {
-  document.getElementById("c-"+id).classList.toggle("open");
+  const el = document.getElementById("c-" + CSS.escape(id));
+  if (el) el.classList.toggle("open");
 }
 
 /* ── 統計 ── */
 function updateStats(list) {
-  document.getElementById("sTotal").textContent  = list.length;
-  document.getElementById("sOpen").textContent   = list.filter(c=>c.status==="處理中").length;
-  document.getElementById("sClosed").textContent = list.filter(c=>c.status==="已結案").length;
-  document.getElementById("sPending").textContent= list.filter(c=>c.status==="待確認").length;
-  document.getElementById("rCount").textContent  = list.length;
+  document.getElementById("sTotal").textContent   = list.length;
+  document.getElementById("sOpen").textContent    = list.filter(c => c.status === "處理中").length;
+  document.getElementById("sClosed").textContent  = list.filter(c => c.status === "已結案").length;
+  document.getElementById("sPending").textContent = list.filter(c => c.status === "待確認").length;
+  document.getElementById("rCount").textContent   = list.length;
 }
 
-/* ── 客戶下拉動態產生 ── */
+/* ── 重建客戶下拉 ── */
 function rebuildClientFilter() {
   const sel = document.getElementById("fClient");
   const cur = sel.value;
-  const clients = [...new Set(data.map(c=>c.client))].sort();
+  const clients = [...new Set(data.map(c => c.client))].filter(Boolean).sort();
   sel.innerHTML = `<option value="">全部</option>` +
-    clients.map(c=>`<option${c===cur?" selected":""}>${c}</option>`).join("");
+    clients.map(c => `<option${c === cur ? " selected" : ""}>${c}</option>`).join("");
 }
 
 /* ── 搜尋 ── */
 function search() {
-  const kw  = document.getElementById("kw").value.trim().toLowerCase();
-  const cl  = document.getElementById("fClient").value;
-  const cat = document.getElementById("fCat").value;
-  const st  = document.getElementById("fSt").value;
+  const kw = document.getElementById("kw").value.trim().toLowerCase();
+  const cl = document.getElementById("fClient").value;
+  const st = document.getElementById("fSt").value;
 
   const res = data.filter(c => {
-    const mKw = !kw || [c.id,c.client,c.title,c.rootCause,c.actionShort,c.actionLong,c.verify,c.detail,c.source]
+    const mKw = !kw || [c.id, c.client, c.complaint, c.actionShort, c.actionLong, c.verify]
       .join(" ").toLowerCase().includes(kw);
     return mKw
-      && (!cl  || c.client===cl)
-      && (!cat || c.category===cat)
-      && (!st  || c.status===st);
+      && (!cl || c.client === cl)
+      && (!st || c.status === st);
   });
 
   render(res, kw);
   updateStats(res);
 }
 
-function reset() {
-  ["kw","fClient","fCat","fSt"].forEach(id=>{ document.getElementById(id).value=""; });
+function resetSearch() {
+  ["kw", "fClient", "fSt"].forEach(id => { document.getElementById(id).value = ""; });
   search();
 }
 
-document.getElementById("kw").addEventListener("keydown", e=>{ if(e.key==="Enter") search(); });
+document.getElementById("kw").addEventListener("keydown", e => {
+  if (e.key === "Enter") search();
+});
 
 /* ── 清空 ── */
 function clearAll() {
   if (!data.length) return;
-  if (!confirm("確定要清空所有資料嗎？此動作無法復原。")) return;
+  if (!confirm("確定要清空所有資料嗎？")) return;
   data = [];
   rebuildClientFilter();
   search();
 }
 
-/* ── 從物件陣列建立記錄 ── */
+/* ── 從 row 物件建立記錄 ── */
 function makeRecord(row) {
-  const g = k => (row[k]||"").toString().trim();
+  const g = (...keys) => {
+    for (const k of keys) {
+      const v = (row[k] || "").toString().trim();
+      if (v) return v;
+    }
+    return "";
+  };
   return {
-    id:          g("案號")   || g("A") || ("ID-"+Date.now()),
-    client:      g("客戶")   || g("B") || "未知",
-    date:        g("日期")   || g("C") || "—",
-    category:    g("分類")   || g("D") || "其他",
-    status:      g("狀態")   || g("E") || "處理中",
-    responsible: g("負責部門")|| g("F") || "",
-    source:      g("來源")   || g("G") || "",
-    title:       g("問題標題")|| g("H") || "（無標題）",
-    rootCause:   g("根本原因")|| g("I") || "",
-    actionShort: g("短期矯正")|| g("J") || "",
-    actionLong:  g("長期預防")|| g("K") || "",
-    verify:      g("效果確認")|| g("L") || "",
-    closeDate:   g("結案日期")|| g("M") || "—",
-    reporter:    g("建立人") || g("N") || "",
-    detail:      g("詳細說明")|| g("O") || ""
+    id:          g("客戶抱怨處理單編號", "編號", "A") || ("ID-" + Date.now()),
+    client:      g("客戶", "B")       || "未知",
+    date:        g("日期", "C")       || "—",
+    status:      g("處理狀態", "狀態", "D") || "處理中",
+    complaint:   g("抱怨內容", "E")   || "",
+    actionShort: g("短期對策", "F")   || "",
+    actionLong:  g("長期對策", "G")   || "",
+    verify:      g("效果確認", "H")   || "",
+    closeDate:   g("結案日期", "I")   || "—",
+    reporter:    g("負責人", "J")     || ""
   };
 }
 
-/* ── 匯入 Excel / CSV ── */
+/* ── 匯入 Excel ── */
 function importFile(input) {
   const file = input.files[0];
   if (!file) return;
   const reader = new FileReader();
-
   reader.onload = e => {
     try {
-      const wb = XLSX.read(e.target.result, { type: "array" });
-      const ws = wb.Sheets[wb.SheetNames[0]];
+      const wb   = XLSX.read(e.target.result, { type: "array" });
+      const ws   = wb.Sheets[wb.SheetNames[0]];
       const rows = XLSX.utils.sheet_to_json(ws, { defval: "" });
-
-      if (!rows.length) { alert("Excel 內沒有資料，請確認格式是否正確。"); return; }
-
+      if (!rows.length) { alert("Excel 內沒有資料，請確認格式。"); return; }
       const imported = rows.map(makeRecord);
       data = [...data, ...imported];
       rebuildClientFilter();
       search();
       alert(`✅ 成功匯入 ${imported.length} 筆資料！`);
-    } catch(err) {
-      alert("❌ 檔案解析失敗，請確認是否為正確的 Excel 或 CSV 格式。\n\n錯誤：" + err.message);
+    } catch (err) {
+      alert("❌ 解析失敗：" + err.message);
     }
     input.value = "";
   };
   reader.readAsArrayBuffer(file);
 }
 
-/* ── 下載 Excel 範本 ── */
+/* ── 下載範本 ── */
 function downloadTemplate() {
-  const headers = [["案號","客戶","日期","分類","狀態","負責部門","來源",
-    "問題標題","根本原因","短期矯正","長期預防","效果確認","結案日期","建立人","詳細說明"]];
+  const headers = [[
+    "客戶抱怨處理單編號", "客戶", "日期", "處理狀態",
+    "抱怨內容", "短期對策", "長期對策", "效果確認",
+    "結案日期", "負責人"
+  ]];
   const ws = XLSX.utils.aoa_to_sheet(headers);
-  // 設定欄寬
-  ws["!cols"] = [10,8,10,8,8,10,12,24,20,20,20,16,10,8,30].map(w=>({wch:w}));
+  ws["!cols"] = [18, 8, 12, 10, 32, 28, 28, 20, 12, 10].map(w => ({ wch: w }));
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "客訴資料");
-  XLSX.writeFile(wb, "客訴資料範本.xlsx");
+  XLSX.writeFile(wb, "客訴處理單範本.xlsx");
 }
 
 /* ── 新增 Modal ── */
-function openAdd()  { document.getElementById("addModal").classList.add("on"); }
-function closeAdd(e){ if (!e || e.target.id==="addModal") document.getElementById("addModal").classList.remove("on"); }
+function openAdd() { document.getElementById("addModal").classList.add("on"); }
+function closeAdd(e) {
+  if (!e || e.target.id === "addModal")
+    document.getElementById("addModal").classList.remove("on");
+}
 
 function saveAdd() {
   const g = id => document.getElementById(id).value.trim();
-  const id  = g("a_id");
-  const cl  = g("a_cl");
-  const dt  = g("a_dt");
-  const cat = g("a_cat");
-  const st  = g("a_st");
-  const ttl = g("a_ttl");
+  const id = g("a_id"), cl = g("a_cl"), dt = g("a_dt"),
+        st = g("a_st"), comp = g("a_comp");
 
-  if (!id||!cl||!dt||!cat||!st||!ttl) { alert("請填寫所有 * 必填欄位"); return; }
-  if (data.find(c=>c.id===id)) { alert("案號已存在：" + id); return; }
+  if (!id || !cl || !dt || !st || !comp) {
+    alert("請填寫所有標示 * 的必填欄位");
+    return;
+  }
+  if (data.find(c => c.id === id)) {
+    alert("此編號已存在：" + id);
+    return;
+  }
 
   data.unshift({
-    id, client:cl, date:dt, category:cat, status:st,
-    responsible: g("a_dept"),
-    source:      g("a_src"),
-    title:       ttl,
-    rootCause:   g("a_rc"),
-    actionShort: g("a_as"),
-    actionLong:  g("a_al"),
-    verify:      g("a_vf"),
+    id, client: cl, date: dt, status: st,
+    complaint:   comp,
+    actionShort: g("a_s1"),
+    actionLong:  g("a_s2"),
+    verify:      g("a_s3"),
     closeDate:   g("a_cd") || "—",
-    reporter:    g("a_rp"),
-    detail:      g("a_det")
+    reporter:    g("a_rp")
   });
 
   rebuildClientFilter();
   search();
   closeAdd();
-  ["a_id","a_cl","a_dt","a_cat","a_st","a_dept","a_src","a_ttl",
-   "a_rc","a_as","a_al","a_vf","a_cd","a_rp","a_det"].forEach(id=>{
-    document.getElementById(id).value="";
+
+  ["a_id","a_cl","a_dt","a_st","a_comp",
+   "a_s1","a_s2","a_s3","a_cd","a_rp"].forEach(id => {
+    document.getElementById(id).value = "";
   });
   alert("✅ 已新增：" + id);
 }
